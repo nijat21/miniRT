@@ -10,34 +10,48 @@
 #                                                                              #
 # **************************************************************************** #
 
-.PHONY: all fclean clean val re
+.PHONY: all clean fclean re val cl fcl r
 
 NAME=minirt
 CC=cc
-CFLAGS=-Wall -Wextra -Werror -g
+CFLAGS=-Wall -Wextra -Werror -g -fsanitize=address
+RM=rm -rf
+OBJS_DIR=build
 
-SRCS=minirt.c
-OBJS=$(SRCS:%.c=%.o)
+INCLUDES:=-I. -I./includes -I./src/Libft
+SRCS:=minirt.c \
+      src/window/win.c \
+      src/window/hooks.c \
+      src/error_handler/error_handler.c 
 
-LIBFT_DIR=Libft
+OBJS:=$(patsubst %.c,$(OBJS_DIR)/%.o, $(SRCS))
+VALGRIND = valgrind \
+			--leak-check=full \
+			--track-fds=yes \
+			--show-leak-kinds=all \
+			--track-origins=yes \
+			--suppressions=readline.supp
+
+LIBFT_DIR=src/Libft
 LIBFT_MAKE=make -C $(LIBFT_DIR)
 LIBFT_LIB=$(LIBFT_DIR)/libft.a
 
-# For MacOS
+# For macOS - current setup
 ifeq ($(shell uname), Darwin)
 	MLX_DIR=minilibx_macos_metal
 	MLX_LIB=$(MLX_DIR)/libmlx.dylib
-	LINKS=$(LIBFT_LIB) -L $(MLX_DIR) -lmlx -Wl,-rpath,$(shell pwd)/$(MLX_DIR) -framework OpenGL -framework AppKit
+	LINKS=$(LIBFT_LIB) -L$(MLX_DIR) -lmlx  -Wl,-rpath,$(shell pwd)/$(MLX_DIR) -framework OpenGL -framework AppKit
 endif
 
-# For Linux
+# For Linux - future setup
 ifeq ($(shell uname), Linux)
 	MLX_DIR=minilibx-linux
-	MLX_LIB=$(MLX_DIR)/libmlx.a
-	LINKS=$(LIBFT_LIB) $(MLX_LIB) -lXext -lX11 -lm -lz
+    	MLX_LIB=$(MLX_DIR)/libmlx.a
+    	LINKS=$(LIBFT_LIB) $(MLX_LIB) -lXext -lX11 -lm -lz	
 endif
 
 MLX_MAKE=make -C $(MLX_DIR)
+
 
 all: $(NAME)
 
@@ -51,6 +65,7 @@ $(LIBFT_LIB):
 ifeq ($(shell uname), Darwin)
 $(MLX_LIB):
 	$(MLX_MAKE) all
+	install_name_tool -id @rpath/libmlx.dylib $(MLX_LIB)
 endif
 
 # For Linux
@@ -59,16 +74,28 @@ $(MLX_LIB):
 	$(MLX_MAKE) all
 endif
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJS_DIR)/%.o: %.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
+val: $(NAME)
+	$(VALGRIND) ./$(NAME)
 clean:
-	rm -rf $(OBJS)
+	$(RM) $(OBJS_DIR)
 	$(LIBFT_MAKE) clean
 	$(MLX_MAKE) clean
 
 fclean: clean
-	rm -rf $(NAME)
+	$(RM) $(NAME)
 	$(LIBFT_MAKE) fclean
 
 re: fclean all
+
+# Development targets
+cl:
+	$(RM) $(OBJS_DIR)
+
+fcl: cl
+	$(RM) $(NAME)
+
+r: fcl all
