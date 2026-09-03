@@ -1,0 +1,23 @@
+# Ambient light
+# lighting ratio    rgb
+A 0.2               255,255,255
+
+# Camera
+# x,y,z             vec             FOV degree (0-180)
+C -50,0,20          0,0,1           70
+
+# Light
+# x,y,z             brightness      rgb       
+L -40,0,30          0.7             255,255,255
+
+# Plane
+# x,y,z             vec             rgb
+pl 0,0,0            0,1.0,0         255,0,225
+
+# Sphere
+# x,y,z center      diameter        rgb       
+sp 0,0,20           20              255,0,0
+
+# Cylinder
+# x,y,z center      vec             diameter        height          rgb         
+cy 50.0,0.0,20.6    0,0,1.0         14.2            21.42           10,0,255

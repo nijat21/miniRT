@@ -1,8 +1,10 @@
 #include <error_handler.h>
 #include <libft.h>
 
-char *err_msg(t_error err) {
-    switch (err) {
+char *err_msg(t_error err)
+{
+    switch (err)
+    {
     // General
     case ERR_INVALID_INPUT:
         return ("Input is invalid");
@@ -22,6 +24,7 @@ char *err_msg(t_error err) {
     }
 }
 
-void print_err(const t_error err) {
+void print_err(const t_error err)
+{
     ft_putstr_fd(err_msg(err), 2);
 }

@@ -1,41 +1,44 @@
 #include <error_handler.h>
+#include <minirt.h>
+#include <ray.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <window.h>
 
-/* void	my_mlx_pixel_put(t_img* img, int x, int y, int color) */
-/* { */
-/* 	char	*dst; */
-
-/* 	dst = img->addr + (y * img->line_len + x * (img->bits_pp / 8)); */
-/* 	*(unsigned int*)dst = color; */
-/* } */
-
-int main() {
+int main(int ac, char **av)
+{
     t_disp *disp;
+    t_scene scene;
 
-    disp = disp_init();
+    if (ac != 2)
+        return (printf("Error\nUsage: ./miniRT file.rt\n"), 1);
+    if (!parse_scene(av[1], &scene))
+        return (printf("Error\nParsing failed\n"), 1);
+
+    disp = disp_init(1336, 768);
     if (!disp)
         return EXIT_FAILURE;
-    disp->win = win_init(disp->mlx, 1336, 768);
-    if (!disp->win) {
-        cleanup(disp);
-        return EXIT_FAILURE;
-    }
-    disp->img = img_init(disp->mlx, 1336, 768);
-    if (!disp->img) {
-        cleanup(disp);
-        return EXIT_FAILURE;
-    }
 
-    /* my_mlx_pixel_put(img->img, 5, 5, 0x00FF0000); */
-    mlx_put_image_to_window(disp->mlx, disp->win->win, disp->img->img, 0, 0);
+    // disp->win = win_init(disp);
+    // if (!disp->win) {
+    //     cleanup(disp);
+    //     return EXIT_FAILURE;
+    // }
+    // disp->img = img_init(disp);
+    // if (!disp->img) {
+    //     cleanup(disp);
+    //     return EXIT_FAILURE;
+    // }
 
+    // mlx_put_image_to_window(disp->mlx, disp->win->win, disp->img->img, 0, 0);
+
+    // mlx_key_hook(disp->win->win, key_hook, disp);
+    // mlx_hook(disp->win->win, 17, 0, close_win, disp);
     // mlx_hook(win, 2, 1L << 0, key_press, data);   // KeyPressMask
     // mlx_hook(win, 3, 1L << 1, key_release, data); // KeyReleaseMask
-    // mlx_hook(win, 4, 1L << 2, mouse_press, data); // ButtonPressMask
-    // mlx_hook(win, 6, 1L << 6, mouse_move, data);  // PointerMotionMask
-    mlx_key_hook(disp->win->win, key_hook, disp);
-    mlx_hook(disp->win->win, 17, 0, close_win, disp);
+    // mlx_hook(win, 4, NOUSE_PRESS_MASK, mouse_press, data); // ButtonPressMask
+    // mlx_hook(win, 5, MOUSE_RELEASE_MASK, mouse_release, data); // ButtonReleaseMask
+    // mlx_hook(win, 6, MOUSE_MOVE_MASK, mouse_move, data);  // PointerMotionMask
 
-    mlx_loop(disp->mlx);
+    // mlx_loop(disp->mlx);
 }

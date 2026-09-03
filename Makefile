@@ -14,14 +14,32 @@
 
 NAME=minirt
 CC=cc
-CFLAGS=-Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS=-Wall -Wextra -Werror -g -fsanitize=address #-lm
 RM=rm -rf
 OBJS_DIR=build
 
-INCLUDES:=-I. -I./includes -I./src/Libft
+INCLUDES:=-I. -I./includes -I./src/Libft 
 SRCS:=minirt.c \
+				src/parser/parse_ambient.c \
+				src/parser/parse_camera.c \
+				src/parser/parse_cylinder.c \
+				src/parser/parse_light.c \
+				src/parser/parse_plane.c \
+				src/parser/parse_resolution.c \
+				src/parser/parse_sphere.c \
+				src/parser/parse_split_spaces.c \
+				src/parser/parse_square.c \
+				src/parser/parse_triangle.c \
+				src/parser/parse_utils.c \
+				src/parser/parser.c \
       src/window/win.c \
+      src/window/drawer.c \
       src/window/hooks.c \
+	  src/vec/vec.c \
+	  src/vec/vec_ops.c \
+	  src/vec/vec_utils.c \
+	  src/ray/ray.c \
+	  src/ray/intersect.c \
       src/error_handler/error_handler.c 
 
 OBJS:=$(patsubst %.c,$(OBJS_DIR)/%.o, $(SRCS))
