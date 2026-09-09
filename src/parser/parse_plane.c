@@ -25,7 +25,7 @@ void parse_plane(char **tokens, t_scene *scene)
         error("Malloc failed");
     pl->cors = parse_vec(tokens[1]);
     pl->norm = parse_vec(tokens[2]);
-    if (length_vec(pl->norm) == 0)
+    if (vec_len(pl->norm) == 0)
         error("Plane norm cannot be zero");
     pl->norm = normalize(pl->norm);
     pl->rgb = parse_color(tokens[3]);

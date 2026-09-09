@@ -29,14 +29,14 @@ void parse_resolution(char **tokens, t_scene *scene);
 void parse_sphere(char **tokens, t_scene *scene);
 char **ft_split_spaces(char *str);
 void parse_square(char **tokens, t_scene *scene);
-// parse_triangle.c
 t_vec parse_vec(char *str);
-t_rgb parse_color(char *str);
-double parse_double(char *str);
+t_vec parse_color(char *str);
+double parse_double(char *str);\
+int parse_int(char *str);
 void error(char *msg);
 int count_tokens(char **tokens);
 int parse_scene(char *filename, t_scene *scene);
-double ft_atof(char *str);
+int ft_atof(const char *str, double *result);
 void *free_split(char **strs, int count);
 void parse_line(char *line, t_scene *scene);
 

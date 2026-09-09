@@ -17,7 +17,7 @@ void parse_ambient(char **tokens, t_scene *scene)
         error("Ambient already defined");
     if (count_tokens(tokens) != 3)
         error("Invalid ambient format");
-    scene->amb.ratio = ft_atof(tokens[1]);
+    scene->amb.ratio = parse_double(tokens[1]);
     if (scene->amb.ratio < 0.0 || scene->amb.ratio > 1.0)
         error("Ambient ratio must be in range [0.0,1.0]");
     scene->amb.rgb = parse_color(tokens[2]);

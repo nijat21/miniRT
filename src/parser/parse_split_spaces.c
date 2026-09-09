@@ -66,5 +66,8 @@ char **ft_split_spaces(char *str)
         res[j++] = word_dup(str, start, i);
     }
     res[j] = NULL;
+    printf("SPLIT DEBUG: j = %d\n", j);
+    for (int k = 0; k <= j; k++)
+        printf("SPLIT DEBUG: res[%d] = [%s] (%p)\n", k, res[k], (void *)res[k]);
     return (res);
 }

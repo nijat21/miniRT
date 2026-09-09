@@ -38,8 +38,12 @@ SRCS:=minirt.c \
 	  src/vec/vec.c \
 	  src/vec/vec_ops.c \
 	  src/vec/vec_utils.c \
+	  src/vec/vec_comp_ops.c \
+	  src/general/utils.c \
 	  src/ray/ray.c \
+	  src/ray/ray_utils.c \
 	  src/ray/intersect.c \
+	  src/ray/hit_cylinder.c \
       src/error_handler/error_handler.c 
 
 OBJS:=$(patsubst %.c,$(OBJS_DIR)/%.o, $(SRCS))

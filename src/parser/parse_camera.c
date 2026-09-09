@@ -18,13 +18,13 @@ void parse_camera(char **tokens, t_scene *scene)
 
     // orientation
     cam.norm = parse_vec(tokens[2]);
-    if (cam.norm.x < -1 || cam.norm.x > 1 || cam.norm.y < -1 || cam.norm.y > 1 || cam.norm.z < -1 || cam.norm.z > 1)
+    if (cam.norm.x < -1.0 || cam.norm.x > 1.0
+        || cam.norm.y < -1.0 || cam.norm.y > 1.0
+        || cam.norm.z < -1.0 || cam.norm.z > 1.0)
         error("Camera orientation must be in range [-1,1]");
-
-    // normalize vectpr
+    if (vec_len(cam.norm) == 0.0)
+        error("Camera orientation cannot be zero");
     cam.norm = normalize(cam.norm);
-
-    // FOV
     cam.hfov = ft_atoi(tokens[3]);
     if (cam.hfov < 0 || cam.hfov > 180)
         error("Invalid FOV range");

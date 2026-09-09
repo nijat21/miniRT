@@ -1,9 +1,9 @@
-#include <error_handler.h>
-#include <minirt.h>
-#include <ray.h>
+#include "includes/error_handler.h"
+#include "includes/minirt.h"
+#include "includes/parser.h"
+#include "includes/ray.h"
 #include <stdio.h>
-#include <stdlib.h>
-#include <window.h>
+#include "includes/window.h"
 
 int main(int ac, char **av)
 {

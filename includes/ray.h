@@ -2,6 +2,7 @@
 #define RAY_H
 
 #include <window.h>
+#include <math.h>
 
 typedef struct s_vport
 {

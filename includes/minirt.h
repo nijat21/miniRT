@@ -14,14 +14,14 @@ typedef struct s_rgb
 typedef struct s_amb
 {
     double ratio;
-    t_rgb rgb;
+    t_vec rgb;
 } t_amb;
 
 typedef struct s_light
 {
     t_vec cors;
     double brightness;
-    t_rgb rgb;
+    t_vec rgb;
 } t_light;
 
 typedef struct s_cam
@@ -37,7 +37,7 @@ typedef struct s_plane
 {
     t_vec cors;
     t_vec norm;
-    t_rgb rgb;
+    t_vec rgb;
 } t_plane;
 
 typedef struct s_square
@@ -45,14 +45,14 @@ typedef struct s_square
     t_vec cors;
     t_vec norm;
     double side_len;
-    t_rgb rgb;
+    t_vec rgb;
 } t_square;
 
 typedef struct s_sph
 {
     t_vec cors;
     double rad;
-    t_rgb rgb;
+    t_vec rgb;
 } t_sph;
 
 typedef struct s_circle
@@ -69,7 +69,7 @@ typedef struct s_cyl
     double h;
     double half_h;
     double rad;
-    t_rgb rgb;
+    t_vec rgb;
 } t_cyl;
 
 typedef enum e_obj_type

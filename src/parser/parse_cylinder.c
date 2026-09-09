@@ -31,7 +31,7 @@ void parse_cylinder(char **tokens, t_scene *scene)
     }
     cy->cors = parse_vec(tokens[1]);
     cy->norm = parse_vec(tokens[2]);
-    if (length_vec(cy->norm) == 0)
+    if (vec_len(cy->norm) == 0)
         error("Cylinder norm cannot be zero");
     cy->norm = normalize(cy->norm);
     cy->rad = parse_double(tokens[3]) / 2.0;

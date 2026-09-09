@@ -82,11 +82,9 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 
 // get next line
 char				*get_next_line(int fd);
-int					gnl_strlen(char *str);
-void				ft_strcpy(char *des, char *src);
-char				*make_line(char *str, int *index);
-char				*gnl_strjoin(char *prev_line, char *curr_line);
-void				create_merge(char **final_line, char *buf);
+size_t				ft_linelen(char *s);
+char				*ft_strjoin_gnl(char *s1, char *s2);
+void				ft_buff_move(char *buffer);
 
 // ft printf
 int					ft_printf(const char *format, ...);

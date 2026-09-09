@@ -27,7 +27,7 @@ void parse_square(char **tokens, t_scene *scene)
         error("Malloc failed");
     sq->cors = parse_vec(tokens[1]);
     sq->norm = parse_vec(tokens[2]);
-    if (length_vec(sq->norm) == 0)
+    if (vec_len(sq->norm) == 0)
         error("Square norm cannot be zero");
     sq->norm = normalize(sq->norm);
     sq->side_len = parse_double(tokens[3]);
