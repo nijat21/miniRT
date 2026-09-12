@@ -4,14 +4,14 @@
 
 void parse_sphere(char **tokens, t_scene *scene)
 {
-    t_object *obj;
+    t_obj *obj;
     t_sph *sp;
     t_list *node;
 
     if (count_tokens(tokens) != 4)
         error("Invalid sphere format");
     sp = malloc(sizeof(t_sph));
-    obj = malloc(sizeof(t_object));
+    obj = malloc(sizeof(t_obj));
     if (!sp || !obj)
         error("Malloc failed");
     sp->cors = parse_vec(tokens[1]);
@@ -24,5 +24,5 @@ void parse_sphere(char **tokens, t_scene *scene)
     node = ft_lstnew(obj);
     if (!node)
         error("Malloc failed");
-    ft_lstadd_back(&scene->objects, node);
+    ft_lstadd_back(&scene->objs, node);
 }

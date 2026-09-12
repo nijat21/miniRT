@@ -15,14 +15,14 @@ tokens[5] color
 
 void parse_cylinder(char **tokens, t_scene *scene)
 {
-    t_object *obj;
+    t_obj *obj;
     t_cyl *cy;
     t_list *node;
 
     if (count_tokens(tokens) != 6)
         error("Invalid cylinder format");
     cy = malloc(sizeof(t_cyl));
-    obj = malloc(sizeof(t_object));
+    obj = malloc(sizeof(t_obj));
     if (!cy || !obj)
     {
         free(cy);
@@ -49,5 +49,5 @@ void parse_cylinder(char **tokens, t_scene *scene)
         free(obj);
         error("Malloc failed");
     }
-    ft_lstadd_back(&scene->objects, node);
+    ft_lstadd_back(&scene->objs, node);
 }

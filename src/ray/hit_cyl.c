@@ -25,30 +25,29 @@ bool hit_circ_pl(t_ray ray, t_circle cir, double *t)
     return true;
 }
 
-bool hit_caps(t_cyl cyl, t_ray ray, double *t)
+bool hit_caps(t_cyl cyl, t_ray ray, double *t, t_cyl_part *cap)
 {
     t_vec tmp;
     t_circle top;
     t_circle btm;
-    double top_t;
-    double btm_t;
+    double ts[2];
     bool hit_top;
     bool hit_btm;
 
-    top_t = DBL_MAX;
-    btm_t = DBL_MAX;
+    ts[0] = DBL_MAX;
+    ts[1] = DBL_MAX;
     tmp = vec_scal_mul(cyl.norm, (cyl.h / 2));
     top.cors = vec_add(cyl.cors, tmp);
     top.norm = cyl.norm;
     top.rad = cyl.rad;
     btm.cors = vec_sub(cyl.cors, tmp);
-    btm.norm = vec_mul(cyl.norm, (t_vec){-1, -1, -1});
+    btm.norm = vec_scal_mul(cyl.norm, -1);
     btm.rad = cyl.rad;
-    hit_top = hit_circ_pl(ray, top, &top_t);
-    hit_btm = hit_circ_pl(ray, btm, &btm_t);
+    hit_top = hit_circ_pl(ray, top, &ts[0]);
+    hit_btm = hit_circ_pl(ray, btm, &ts[1]);
     if (!hit_top && !hit_btm)
         return false;
-    return select_t(top_t, btm_t, t);
+    return select_cyl_t(ts, (t_cyl_part[]){TOP, BTM}, t, cap);
 }
 
 bool side_in_bounds(t_ray ray, t_cyl cyl, double roots[], double *t)
@@ -116,14 +115,17 @@ bool hit_cyl(t_ray ray, t_cyl cyl, double *t)
     bool h_caps;
 
     h_side = hit_inf_cyl(ray, cyl, roots, &side_t);
-    h_caps = hit_caps(cyl, ray, &cap_t);
-    if (!h_side && !h_caps)
-        return false;
+    h_caps = hit_caps(cyl, ray, &cap_t, &cyl.part_hit);
     if (h_side && h_caps)
-        select_t(side_t, cap_t, t);
+        select_cyl_t((double[]){side_t, cap_t}, (t_cyl_part[]){TOP, cyl.part_hit}, t, cyl.part_hit);
     else if (h_caps)
         *t = cap_t;
-    else
+    else if (h_side)
+    {
         *t = side_t;
+        cyl.part_hit = SIDE;
+    }
+    else
+        return false;
     return true;
 }

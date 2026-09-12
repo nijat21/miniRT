@@ -3,39 +3,6 @@
 #include <ray.h>
 #include <vec.h>
 
-/*
-    A - a point in plane
-    P - point ray intersects plane
-    P(t) = O + tV; t>=0;
-
-    (P - A).N = 0 -> two points in plane are perpendicular
-    (O + tV - A).N = 0;
-    (O - A).N + tV.N = 0;
-
-    t = (A - O).N / V.N
-
-    Special cases:
-        1. V.N == 0 -> Vector is perpendicular to the Normal of plane
-            in other words, ray is parallel to plane
-        2. t < 0 -> meaning ray needs to go back to intersect with plane
-*/
-bool hit_plane(t_ray ray, t_plane pl, double *t)
-{
-    t_vec po;
-    double tmp;
-    double r_proj;
-
-    r_proj = vec_dot(ray.dir, pl.norm);
-    if (fabs(r_proj) < EPSILON)
-        return false;
-    po = vec_sub(pl.cors, ray.orig);
-    tmp = vec_dot(po, pl.norm) / r_proj;
-    if (tmp < 0.0)
-        return false;
-    *t = tmp;
-    return true;
-}
-
 void dbl_swap(double *a, double *b)
 {
     double tmp;
@@ -94,3 +61,40 @@ bool hit_sphere(t_ray ray, t_sph sph, double *t)
     t1 = co_proj + mid_to_point;
     return select_t(t0, t1, t);
 }
+
+/*
+    A - a point in plane
+    P - point ray intersects plane
+    P(t) = O + tV; t>=0;
+
+    (P - A).N = 0 -> two points in plane are perpendicular
+    (O + tV - A).N = 0;
+    (O - A).N + tV.N = 0;
+
+    t = (A - O).N / V.N
+
+    Special cases:
+        1. V.N == 0 -> Vector is perpendicular to the Normal of plane
+            in other words, ray is parallel to plane
+        2. t < 0 -> meaning ray needs to go back to intersect with plane
+*/
+bool hit_plane(t_ray ray, t_plane pl, double *t)
+{
+    t_vec po;
+    double tmp;
+    double r_proj;
+
+    r_proj = vec_dot(ray.dir, pl.norm);
+    if (fabs(r_proj) < EPSILON)
+        return false;
+    po = vec_sub(pl.cors, ray.orig);
+    tmp = vec_dot(po, pl.norm) / r_proj;
+    if (tmp < EPSILON)
+        return false;
+    *t = tmp;
+    return true;
+}
+
+/*
+    SQUARE INTERSECTION ??
+*/

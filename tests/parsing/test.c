@@ -21,7 +21,7 @@ int main(int argc, char **argv)
 void print_scene(t_scene *scene)
 {
     t_list *current;
-    t_object *obj;
+    t_obj *obj;
 
     printf("\n====== SCENE CONTENT ======\n\n");
 
@@ -31,10 +31,10 @@ void print_scene(t_scene *scene)
 
     printf("\n------ OBJECTS -------\n\n");
 
-    current = scene->objects;
+    current = scene->objs;
     while (current)
     {
-        obj = (t_object *)current->content;
+        obj = (t_obj *)current->content;
         if (obj->type == SPHERE)
         {
             t_sph *sp = (t_sph *)obj->data;

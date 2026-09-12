@@ -21,7 +21,6 @@ t_disp *disp_init(const int width, const int height)
     disp->h = height;
     disp->win = NULL;
     disp->img = NULL;
-    disp->mlx = NULL;
     disp->mlx = mlx_init();
     if (!disp->mlx)
     {
@@ -57,6 +56,19 @@ t_win *win_init(t_disp *disp)
     return win;
 }
 
+t_img *img_data(t_disp *disp, t_img *img)
+{
+    img->addr = mlx_get_data_addr(img->img, &(img->bits_pp), &(img->line_len), &(img->endian));
+    if (!img->addr)
+    {
+        print_err(ERR_MLX_IMG_ADDR);
+        mlx_destroy_image(disp->mlx, img->img);
+        free(img);
+        return NULL;
+    }
+    return img;
+}
+
 t_img *img_init(t_disp *disp)
 {
     t_img *img;
@@ -79,13 +91,13 @@ t_img *img_init(t_disp *disp)
         free(img);
         return NULL;
     }
-    img->addr = mlx_get_data_addr(img->img, &(img->bits_pp), &(img->line_len), &(img->endian));
-    if (!img->addr)
-    {
-        print_err(ERR_MLX_IMG_ADDR);
-        mlx_destroy_image(disp->mlx, img->img);
-        free(img);
-        return NULL;
-    }
-    return img;
+    return img_data(disp, img);
+}
+
+void color_px(t_img *img, int x, int y, t_rgb rgb)
+{
+    char *dst;
+
+    dst = img->addr + (y * img->line_len + x * (img->bits_pp / 8));
+    *(unsigned int *)dst = (0 << 24 | rgb.r << 16 | rgb.g << 8 | rgb.b);
 }

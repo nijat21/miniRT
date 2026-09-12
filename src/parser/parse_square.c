@@ -15,14 +15,14 @@ tokens[4] color
 
 void parse_square(char **tokens, t_scene *scene)
 {
-    t_object *obj;
+    t_obj *obj;
     t_square *sq;
     t_list *node;
 
     if (count_tokens(tokens) != 5)
         error("Invalid square format");
     sq = malloc(sizeof(t_square));
-    obj = malloc(sizeof(t_object));
+    obj = malloc(sizeof(t_obj));
     if (!sq || !obj)
         error("Malloc failed");
     sq->cors = parse_vec(tokens[1]);
@@ -40,5 +40,5 @@ void parse_square(char **tokens, t_scene *scene)
     node = ft_lstnew(obj);
     if (!node)
         error("Malloc failed");
-    ft_lstadd_back(&scene->objects, node);
+    ft_lstadd_back(&scene->objs, node);
 }

@@ -11,24 +11,26 @@ int main(int ac, char **av)
     t_scene scene;
 
     if (ac != 2)
-        return (printf("Error\nUsage: ./miniRT file.rt\n"), 1);
+        return (print_err_msg("Error\nUsage: ./miniRT file.rt\n"), 1);
     if (!parse_scene(av[1], &scene))
-        return (printf("Error\nParsing failed\n"), 1);
+        return (print_err_msg("Error\nParsing failed\n"), 1);
 
     disp = disp_init(1336, 768);
     if (!disp)
         return EXIT_FAILURE;
 
-    // disp->win = win_init(disp);
-    // if (!disp->win) {
-    //     cleanup(disp);
-    //     return EXIT_FAILURE;
-    // }
-    // disp->img = img_init(disp);
-    // if (!disp->img) {
-    //     cleanup(disp);
-    //     return EXIT_FAILURE;
-    // }
+    disp->win = win_init(disp);
+    if (!disp->win)
+    {
+        cleanup(disp);
+        return EXIT_FAILURE;
+    }
+    disp->img = img_init(disp);
+    if (!disp->img)
+    {
+        cleanup(disp);
+        return EXIT_FAILURE;
+    }
 
     // mlx_put_image_to_window(disp->mlx, disp->win->win, disp->img->img, 0, 0);
 

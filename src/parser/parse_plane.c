@@ -13,14 +13,14 @@ tokens[3] color
 
 void parse_plane(char **tokens, t_scene *scene)
 {
-    t_object *obj;
+    t_obj *obj;
     t_plane *pl;
     t_list *node;
 
     if (count_tokens(tokens) != 4)
         error("Invalid plane format");
     pl = malloc(sizeof(t_plane));
-    obj = malloc(sizeof(t_object));
+    obj = malloc(sizeof(t_obj));
     if (!pl || !obj)
         error("Malloc failed");
     pl->cors = parse_vec(tokens[1]);
@@ -34,5 +34,5 @@ void parse_plane(char **tokens, t_scene *scene)
     node = ft_lstnew(obj);
     if (!node)
         error("Malloc failed");
-    ft_lstadd_back(&scene->objects, node);
+    ft_lstadd_back(&scene->objs, node);
 }

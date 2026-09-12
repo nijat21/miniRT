@@ -62,6 +62,13 @@ typedef struct s_circle
     double rad;
 } t_circle;
 
+typedef enum e_cyl_hit
+{
+    SIDE,
+    TOP,
+    BTM,
+} t_cyl_part;
+
 typedef struct s_cyl
 {
     t_vec cors;
@@ -81,11 +88,33 @@ typedef enum e_obj_type
     SQUARE
 } t_obj_type;
 
-typedef struct s_object
+typedef struct s_obj
 {
     t_obj_type type;
     void *data;
-} t_object;
+} t_obj;
+
+typedef struct s_amb
+{
+    double ratio;
+    t_rgb rgb;
+} t_amb;
+
+typedef struct s_cam
+{
+    t_vec cors;
+    t_vec norm;
+    t_vec right;
+    t_vec up;
+    double hfov;
+} t_cam;
+
+typedef struct s_light
+{
+    t_vec cors;
+    double brightness;
+    t_rgb rgb;
+} t_light;
 
 typedef struct s_scene
 {
@@ -95,7 +124,7 @@ typedef struct s_scene
     t_amb amb;
     t_cam cam;
     t_light light;
-    t_list *objects;
+    t_list *objs;
 
     bool has_res;
     bool has_amb;

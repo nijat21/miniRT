@@ -5,6 +5,7 @@ CC=cc
 CFLAGS=-Wall -Wextra -Werror -g -fsanitize=address #-lm
 RM=rm -rf
 OBJS_DIR=build
+LINK=-lm
 
 INCLUDES:=-I. -I../../includes -I./../../../includes -I./../../src/Libft
 # SRCS:=	../../src/vec/vec_ops.c \
@@ -51,7 +52,7 @@ LIBFT_LIB=$(LIBFT_DIR)/libft.a
 all: $(NAME)
 
 $(NAME): $(LIBFT_LIB) $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_LIB) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_LIB) $(LINK) -o $(NAME)
 
 $(LIBFT_LIB):
 	$(LIBFT_MAKE) all

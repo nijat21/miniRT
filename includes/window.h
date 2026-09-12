@@ -59,4 +59,7 @@ void cleanup(t_disp *disp);
 int close_win(t_disp *disp);
 int key_hook(int keycode, t_disp *disp);
 
+//---src/window/win.c-----------------------------------------------------
+void color_px(t_img *img, int x, int y, t_rgb rgb);
+
 #endif
