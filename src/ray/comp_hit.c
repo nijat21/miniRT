@@ -2,13 +2,13 @@
 #include <ray.h>
 #include <error_handler.h>
 
-void cyl_surf_norm(t_hit *hit, t_obj *obj)
+void cyl_surf_norm(t_hit *hit)
 {
     t_cyl *cyl;
     t_vec close_a;
     double d;
 
-    cyl = ((t_cyl *)obj->data);
+    cyl = ((t_cyl *)hit->obj->data);
     if (cyl->part_hit == TOP)
         hit->surf_n = cyl->norm;
     else if (cyl->part_hit == BTM)
@@ -21,23 +21,23 @@ void cyl_surf_norm(t_hit *hit, t_obj *obj)
     }
 }
 
-void surf_norm(t_hit *hit, t_ray ray, t_obj *obj)
+void surf_norm(t_hit *hit, t_ray ray)
 {
     void *data;
 
-    data = obj->data;
+    data = hit->obj->data;
     hit->p = ray_at(ray, hit->t);
-    if (obj->type == SPHERE)
+    if (hit->obj->type == SPHERE)
     {
         hit->surf_n = normalize(vec_sub(hit->p, ((t_sph *)data)->cors));
         hit->rgb = ((t_sph *)data)->rgb;
     }
-    else if (obj->type == CYLINDER)
+    else if (hit->obj->type == CYLINDER)
     {
-        cyl_surf_norm(hit, obj);
-        hit->rgb = ((t_cyl *)obj->data)->rgb;
+        cyl_surf_norm(hit);
+        hit->rgb = ((t_cyl *)hit->obj->data)->rgb;
     }
-    else if (obj->type == PLANE)
+    else if (hit->obj->type == PLANE)
     {
         hit->surf_n = ((t_plane *)data)->norm;
         hit->rgb = ((t_plane *)data)->rgb;
@@ -61,7 +61,7 @@ double clamp(double val)
     return (val);
 }
 
-t_rgb comp_hit_color(t_scene *scene, t_hit *hit, t_ray ray, t_obj *obj)
+t_rgb comp_hit_color(t_scene *scene, t_hit *hit, t_ray ray)
 {
     t_vec rgb_ratio;
     t_rgb res;
@@ -70,7 +70,7 @@ t_rgb comp_hit_color(t_scene *scene, t_hit *hit, t_ray ray, t_obj *obj)
         res = (t_rgb){0, 0, 0};
     else
     {
-        surf_norm(hit, ray, obj);
+        surf_norm(hit, ray);
         rgb_ratio = comp_color(scene, hit);
         res.r = (int)clamp(rgb_ratio.x * 255);
         res.g = (int)clamp(rgb_ratio.y * 255);

@@ -28,7 +28,7 @@ bool interrupted(t_ray ray, t_obj *obj, double lr_len)
     return false;
 }
 
-static bool ligh_ray(t_list *objs, t_ray ray, t_vec l_vec)
+static bool light_ray(t_list *objs, t_ray ray, t_vec l_vec)
 {
     t_list *tmp;
     t_obj *obj;
@@ -44,11 +44,6 @@ static bool ligh_ray(t_list *objs, t_ray ray, t_vec l_vec)
     return true;
 }
 
-t_vec rtv(t_rgb rgb)
-{
-    return create_vec(rgb.b, rgb.g, rgb.r);
-}
-
 t_vec comp_color(t_scene *scene, t_hit *hit)
 {
     t_vec l_vec;
@@ -59,10 +54,10 @@ t_vec comp_color(t_scene *scene, t_hit *hit)
     l_vec = vec_add(hit->p, vec_scal_mul(hit->surf_n, EPSILON));
     l_vec = vec_sub(scene->light.cors, l_vec);
     lv_dir = normalize(l_vec);
-    ambient = vec_mul(rtv(hit->rgb), vec_scal_mul(rtv(scene->amb.rgb), scene->amb.ratio));
+    ambient = vec_mul(hit->rgb, vec_scal_mul(scene->amb.rgb, scene->amb.ratio));
     if (light_ray(scene->objs, (t_ray){.orig = hit->p, .dir = lv_dir}, l_vec))
     {
-        diffuse = vec_scal_mul(rtv(hit->rgb), scene->light.brightness * fmax(0, dot(hit->surf_n, lv_dir)));
+        diffuse = vec_scal_mul(hit->rgb, scene->light.brightness * fmax(0, vec_dot(hit->surf_n, lv_dir)));
         return vec_add(ambient, diffuse);
     }
     return ambient;

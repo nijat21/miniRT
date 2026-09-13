@@ -117,7 +117,7 @@ bool hit_cyl(t_ray ray, t_cyl cyl, double *t)
     h_side = hit_inf_cyl(ray, cyl, roots, &side_t);
     h_caps = hit_caps(cyl, ray, &cap_t, &cyl.part_hit);
     if (h_side && h_caps)
-        select_cyl_t((double[]){side_t, cap_t}, (t_cyl_part[]){TOP, cyl.part_hit}, t, cyl.part_hit);
+        select_cyl_t((double[]){side_t, cap_t}, (t_cyl_part[]){TOP, cyl.part_hit}, t, &cyl.part_hit);
     else if (h_caps)
         *t = cap_t;
     else if (h_side)

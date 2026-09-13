@@ -51,15 +51,17 @@ typedef struct s_disp
     int h;
 } t_disp;
 
+//---src/window/win.c-----------------------------------------------------
 t_disp *disp_init(const int width, const int height);
 t_win *win_init(t_disp *disp);
 t_img *img_init(t_disp *disp);
 
+//---src/window/hooks.c-----------------------------------------------------
 void cleanup(t_disp *disp);
 int close_win(t_disp *disp);
 int key_hook(int keycode, t_disp *disp);
 
-//---src/window/win.c-----------------------------------------------------
+//---src/window/drawer.c-----------------------------------------------------
 void color_px(t_img *img, int x, int y, t_rgb rgb);
 
 #endif

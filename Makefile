@@ -19,7 +19,7 @@ RM=rm -rf
 OBJS_DIR=build
 
 INCLUDES:=-I. -I./includes -I./src/Libft 
-SRCS:=minirt.c \
+SRCS:=	minirt.c \
 				src/parser/parse_ambient.c \
 				src/parser/parse_camera.c \
 				src/parser/parse_cylinder.c \
@@ -32,19 +32,22 @@ SRCS:=minirt.c \
 				src/parser/parse_triangle.c \
 				src/parser/parse_utils.c \
 				src/parser/parser.c \
-      src/window/win.c \
-      src/window/drawer.c \
-      src/window/hooks.c \
-	  src/vec/vec.c \
-	  src/vec/vec_ops.c \
-	  src/vec/vec_utils.c \
-	  src/vec/vec_comp_ops.c \
-	  src/general/utils.c \
-	  src/ray/ray.c \
-	  src/ray/ray_utils.c \
-	  src/ray/intersect.c \
-	  src/ray/hit_cylinder.c \
-      src/error_handler/error_handler.c 
+		src/window/win.c \
+		src/window/drawer.c \
+		src/window/hooks.c \
+		src/vec/vec.c \
+		src/vec/vec_ops.c \
+		src/vec/vec_utils.c \
+		src/vec/vec_comp_ops.c \
+		src/ray/comp_color.c \
+		src/ray/comp_hit.c \
+		src/ray/hit_cyl_utils.c \
+		src/ray/hit_cyl.c \
+		src/ray/intersect.c \
+		src/ray/ray_utils.c \
+		src/ray/ray.c \
+		src/general/utils.c \
+		src/error_handler/error_handler.c 
 
 OBJS:=$(patsubst %.c,$(OBJS_DIR)/%.o, $(SRCS))
 VALGRIND = valgrind \

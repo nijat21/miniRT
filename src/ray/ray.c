@@ -48,7 +48,7 @@ static bool single_ray(t_hit *hit, t_list *objs, t_ray ray)
     return true;
 }
 
-bool shoot_ray(t_scene scene, t_ray ray, double x, double y)
+bool shoot_ray(t_disp *disp, t_scene *scene, t_ray ray, double xy[])
 {
     t_vec right;
     t_vec up;
@@ -56,44 +56,41 @@ bool shoot_ray(t_scene scene, t_ray ray, double x, double y)
     t_hit hit;
 
     // Check by rendering images later
-    right = vec_scal_mul(scene.cam.right, x);
-    up = vec_scal_mul(scene.cam.up, y);
-    px = vec_add(vec_add(scene.cam.cors, scene.cam.norm), vec_add(right, up));
+    right = vec_scal_mul(scene->cam.right, xy[0]);
+    up = vec_scal_mul(scene->cam.up, xy[1]);
+    px = vec_add(vec_add(scene->cam.cors, scene->cam.norm), vec_add(right, up));
     ray.dir = normalize(vec_sub(px, ray.orig));
-    if (!single_ray(&hit, scene.objs, ray))
+    if (!single_ray(&hit, scene->objs, ray))
         return false;
     // COLOR THE PIXEL
+    color_px(disp->img, xy[0], xy[1], comp_hit_color(scene, &hit, ray));
     return true;
 }
 
 // shoot rays for each pixel on viewport
-bool shoot_rays(t_scene scene, t_disp *disp)
+bool shoot_rays(t_scene *scene, t_disp *disp)
 {
     t_ray ray;
     t_vport vport;
-    double i;
-    double j;
-    double x;
-    double y;
+    double ij[2];
+    double xy[2];
 
-    scene.cam = cam_init(scene.cam);
-    ray.orig = scene.cam.cors;
-    vport = vport_init(disp, scene.cam.hfov);
-    i = -1;
-    while (++i < disp->h)
+    scene->cam = cam_init(scene->cam);
+    ray.orig = scene->cam.cors;
+    vport = vport_init(disp, scene->cam.hfov);
+    ij[0] = -1;
+    while (++ij[0] < disp->h)
     {
-        j = -1;
-        while (++j < disp->w)
+        ij[1] = -1;
+        while (++ij[1] < disp->w)
         {
-            // camera is in the center and shooting through the middle of the ray
-            x = (j + 0.5f) * vport.unit - (vport.w / 2);
-            y = (vport.h / 2) - (i + 0.5f) * vport.unit;
-            if (!shoot_ray(scene, ray, x, y))
+            xy[0] = (ij[1] + 0.5f) * vport.unit - (vport.w / 2);
+            xy[1] = (vport.h / 2) - (ij[0] + 0.5f) * vport.unit;
+            if (!shoot_ray(disp, scene, ray, xy))
                 return false;
-            color_px(disp->img, x, y, rgb);
         }
-        if (i == 1)
-            return 1;
+        // if (ij[0] == 1) // --> testing only
+        //     return 1;
     }
     return true;
 }

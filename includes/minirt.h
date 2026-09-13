@@ -11,28 +11,6 @@ typedef struct s_rgb
     int b;
 } t_rgb;
 
-typedef struct s_amb
-{
-    double ratio;
-    t_vec rgb;
-} t_amb;
-
-typedef struct s_light
-{
-    t_vec cors;
-    double brightness;
-    t_vec rgb;
-} t_light;
-
-typedef struct s_cam
-{
-    t_vec cors;
-    t_vec norm;
-    t_vec right;
-    t_vec up;
-    double hfov;
-} t_cam;
-
 typedef struct s_plane
 {
     t_vec cors;
@@ -62,7 +40,7 @@ typedef struct s_circle
     double rad;
 } t_circle;
 
-typedef enum e_cyl_hit
+typedef enum e_cyl_part
 {
     SIDE,
     TOP,
@@ -77,6 +55,7 @@ typedef struct s_cyl
     double half_h;
     double rad;
     t_vec rgb;
+    t_cyl_part part_hit;
 } t_cyl;
 
 typedef enum e_obj_type
@@ -97,8 +76,15 @@ typedef struct s_obj
 typedef struct s_amb
 {
     double ratio;
-    t_rgb rgb;
+    t_vec rgb;
 } t_amb;
+
+typedef struct s_light
+{
+    t_vec cors;
+    double brightness;
+    t_vec rgb;
+} t_light;
 
 typedef struct s_cam
 {
@@ -108,13 +94,6 @@ typedef struct s_cam
     t_vec up;
     double hfov;
 } t_cam;
-
-typedef struct s_light
-{
-    t_vec cors;
-    double brightness;
-    t_rgb rgb;
-} t_light;
 
 typedef struct s_scene
 {

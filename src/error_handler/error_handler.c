@@ -20,6 +20,11 @@ char *err_msg(t_error err)
         return ("Mlx image generation failure");
     case ERR_MLX_IMG_ADDR:
         return ("Mlx image address failure");
+    case ERR_INPUT_FORMAT:
+        return ("Error\nUsage: ./miniRT file.rt");
+    case ERR_PARSING_FAILED:
+        return ("Error\nParsing failed");
+    // Functional
     case ERR_WRONG_OBJ:
         return ("Wrong object type");
     default:
@@ -34,7 +39,7 @@ void def_err()
 
 void print_err_msg(const char *msg)
 {
-    ft_putstr_fd(msg, 2);
+    ft_putstr_fd((char *)msg, 2);
 }
 
 void print_err(const t_error err)

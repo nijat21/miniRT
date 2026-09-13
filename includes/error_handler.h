@@ -13,6 +13,9 @@ typedef enum e_error
     ERR_MLX_WIN,
     ERR_MLX_IMG,
     ERR_MLX_IMG_ADDR,
+    // Parsing
+    ERR_INPUT_FORMAT,
+    ERR_PARSING_FAILED,
     // Functional
     ERR_WRONG_OBJ,
 } t_error;
