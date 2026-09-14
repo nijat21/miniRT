@@ -149,11 +149,21 @@ void print_scene(t_scene *scene)
     printf("\n==================================\n\n");
 }
 
+void scene_init(t_scene *scene)
+{
+    scene->objs = NULL;
+    scene->has_res = false;
+    scene->has_amb = false;
+    scene->has_cam = false;
+    scene->has_light = false;
+}
+
 int parse_scene(char *filename, t_scene *scene)
 {
     int fd;
     char *line;
 
+    scene_init(scene);
     fd = open(filename, O_RDONLY);
     if (fd < 0)
         error("Failed to open file");
