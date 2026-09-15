@@ -14,7 +14,7 @@
 
 NAME=minirt
 CC=cc
-CFLAGS=-Wall -Wextra -Werror -g -fsanitize=address #-lm
+CFLAGS=-Wall -Wextra -Werror -g #-fsanitize=address #-lm
 RM=rm -rf
 OBJS_DIR=build
 
@@ -64,15 +64,15 @@ LIBFT_LIB=$(LIBFT_DIR)/libft.a
 # For macOS - current setup
 ifeq ($(shell uname), Darwin)
 	MLX_DIR=minilibx_macos_metal
-	MLX_LIB=$(MLX_DIR)/libmlx.dylib
+    MLX_LIB=$(MLX_DIR)/libmlx.dylib
 	LINKS=$(LIBFT_LIB) -L$(MLX_DIR) -lmlx  -Wl,-rpath,$(shell pwd)/$(MLX_DIR) -framework OpenGL -framework AppKit
 endif
 
 # For Linux - future setup
 ifeq ($(shell uname), Linux)
 	MLX_DIR=minilibx-linux
-    	MLX_LIB=$(MLX_DIR)/libmlx.a
-    	LINKS=$(LIBFT_LIB) $(MLX_LIB) -lXext -lX11 -lm -lz	
+    MLX_LIB=$(MLX_DIR)/libmlx.a
+    LINKS=$(LIBFT_LIB) $(MLX_LIB) -lXext -lX11 -lm #-lz	
 endif
 
 MLX_MAKE=make -C $(MLX_DIR)

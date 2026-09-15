@@ -48,7 +48,7 @@ static bool single_ray(t_hit *hit, t_list *objs, t_ray ray)
     return true;
 }
 
-bool shoot_ray(t_disp *disp, t_scene *scene, t_ray ray, double xy[])
+bool shoot_ray(t_disp *disp, t_scene *scene, t_ray ray, double xy[], double ij[])
 {
     t_vec right;
     t_vec up;
@@ -63,7 +63,7 @@ bool shoot_ray(t_disp *disp, t_scene *scene, t_ray ray, double xy[])
     if (!single_ray(&hit, scene->objs, ray))
         return false;
     // COLOR THE PIXEL
-    color_px(disp->img, xy[0], xy[1], comp_hit_color(scene, &hit, ray));
+    color_px(disp, ij[0], ij[1], comp_hit_color(scene, &hit, ray));
     return true;
 }
 
@@ -79,14 +79,14 @@ bool shoot_rays(t_scene *scene, t_disp *disp)
     ray.orig = scene->cam.cors;
     vport = vport_init(disp, scene->cam.hfov);
     ij[0] = -1;
-    while (++ij[0] < disp->h)
+    while (++ij[0] < disp->h - 1)
     {
         ij[1] = -1;
-        while (++ij[1] < disp->w)
+        while (++ij[1] < disp->w - 1)
         {
             xy[0] = (ij[1] + 0.5f) * vport.unit - (vport.w / 2);
             xy[1] = (vport.h / 2) - (ij[0] + 0.5f) * vport.unit;
-            if (!shoot_ray(disp, scene, ray, xy))
+            if (!shoot_ray(disp, scene, ray, xy, ij))
                 return false;
         }
         // if (ij[0] == 1) // --> testing only
