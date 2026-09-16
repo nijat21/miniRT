@@ -35,6 +35,7 @@ void	parse_line(char *line, t_scene *scene)
 	free_split(tokens, count_tokens(tokens));
 }
 
+//this one doesnt need norminette its just for parsing debugging
 void	print_scene(t_scene *scene)
 {
 	t_list	*current;
