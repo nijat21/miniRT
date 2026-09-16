@@ -15,51 +15,14 @@ tokens[5] color
 
 void	parse_cylinder(char **tokens, t_scene *scene)
 {
-<<<<<<< Updated upstream
-    t_obj *obj;
-    t_cyl *cy;
-    t_list *node;
-
-    if (count_tokens(tokens) != 6)
-        error("Invalid cylinder format");
-    cy = malloc(sizeof(t_cyl));
-    obj = malloc(sizeof(t_obj));
-    if (!cy || !obj)
-    {
-        free(cy);
-        free(obj);
-        error("Malloc failed");
-    }
-    cy->cors = parse_vec(tokens[1]);
-    cy->norm = parse_vec(tokens[2]);
-    if (vec_len(cy->norm) == 0)
-        error("Cylinder norm cannot be zero");
-    cy->norm = normalize(cy->norm);
-    cy->rad = parse_double(tokens[3]) / 2.0;
-    cy->h = parse_double(tokens[4]);
-    if (cy->rad <= 0 || cy->h <= 0)
-        error("Cylinder diameter and height must be > 0");
-    cy->half_h = cy->h / 2.0;
-    cy->rgb = parse_color(tokens[5]);
-    obj->type = CYLINDER;
-    obj->data = cy;
-    node = ft_lstnew(obj);
-    if (!node)
-    {
-        free(cy);
-        free(obj);
-        error("Malloc failed");
-    }
-    ft_lstadd_back(&scene->objs, node);
-=======
-	t_object	*obj;
-	t_cyl		*cy;
-	t_list		*node;
+	t_obj	*obj;
+	t_cyl	*cy;
+	t_list	*node;
 
 	if (count_tokens(tokens) != 6)
 		error("Invalid cylinder format");
 	cy = malloc(sizeof(t_cyl));
-	obj = malloc(sizeof(t_object));
+	obj = malloc(sizeof(t_obj));
 	if (!cy || !obj)
 	{
 		free(cy);
@@ -86,6 +49,5 @@ void	parse_cylinder(char **tokens, t_scene *scene)
 		free(obj);
 		error("Malloc failed");
 	}
-	ft_lstadd_back(&scene->objects, node);
->>>>>>> Stashed changes
+	ft_lstadd_back(&scene->objs, node);
 }
