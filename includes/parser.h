@@ -31,12 +31,15 @@ t_vec	parse_vec(char *str);
 t_vec	parse_color(char *str);
 double	parse_double(char *str);\
 int		parse_int(char *str);
-void	error(char *msg);
+void	error(t_scene *scene, char *msg);
 int		count_tokens(char **tokens);
 int		parse_scene(char *filename, t_scene *scene);
 int		ft_atof(const char *str, double *result);
 void	*free_split(char **strs, int count);
 void	parse_line(char *line, t_scene *scene);
+void	free_obj(void *content);
+void	clean_scene(t_scene *scene);
+void	init_scene(t_scene *scene);
 void	validate_scene(t_scene *scene);
 
 #endif // PARSER_H

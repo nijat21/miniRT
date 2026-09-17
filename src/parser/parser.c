@@ -31,8 +31,10 @@ void	parse_line(char *line, t_scene *scene)
 	else if (!ft_strncmp(tokens[0], "cy", 3))
 		parse_cylinder(tokens, scene);
 	else
-		error("Unknown identifier");
-	free_split(tokens, count_tokens(tokens));
+	{
+		free_split(tokens, count_tokens(tokens));
+		error(scene, "Unknown identifier");
+	}
 }
 
 //this one doesnt need norminette its just for parsing debugging
@@ -133,13 +135,36 @@ void	print_scene(t_scene *scene)
 void	validate_scene(t_scene *scene)
 {
 	if (!scene->has_res)
-		error("Missing resolution");
+		error(scene, "Missing resolution");
 	if (!scene->has_amb)
-		error("Missing ambient");
+		error(scene, "Missing ambient");
 	if (!scene->has_cam)
-		error("Missing camera");
+		error(scene, "Missing camera");
 	if (!scene->has_light)
-		error("Missing light");
+		error(scene, "Missing light");
+}
+
+void	free_obj(void *content)
+{
+	t_obj	*obj;
+
+	obj = (t_obj *)content;
+	if (!obj)
+		return ;
+	free(obj->data);
+	free(obj);
+}
+
+void	clean_scene(t_scene *scene)
+{
+	if (!scene)
+		return ;
+	ft_lstclear(&scene->objs, free_obj);
+}
+
+void	init_scene(t_scene *scene)
+{
+	ft_bzero(scene, sizeof(t_scene));
 }
 
 int	parse_scene(char *filename, t_scene *scene)
@@ -147,9 +172,10 @@ int	parse_scene(char *filename, t_scene *scene)
 	int		fd;
 	char	*line;
 
+	init_scene(scene);
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		error("Failed to open file");
+		error(scene, "Failed to open file");
 	while ((line = get_next_line(fd)))
 	{
 		parse_line(line, scene);
@@ -158,5 +184,6 @@ int	parse_scene(char *filename, t_scene *scene)
 	close(fd);
 	validate_scene(scene);
 	print_scene(scene);
+	clean_scene(scene);
 	return (1);
 }

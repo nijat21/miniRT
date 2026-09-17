@@ -74,8 +74,10 @@ void	*free_split(char **strs, int count)
 	return (NULL);
 }
 
-void	error(char *msg)
+void	error(t_scene *scene, char *msg)
 {
+	if (scene)
+		clean_scene(scene);
 	printf("Error\n%s\n", msg);
 	exit(1);
 }
