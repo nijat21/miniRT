@@ -65,7 +65,7 @@ void test_hit_cylinder(t_case cases[], int len)
     t_inp inp = cases[i].inp;
     t_exp exp = cases[i].exp;
 
-    hit = hit_cyl(inp.ray, inp.cyl, &t);
+    hit = hit_cyl(inp.ray, &inp.cyl, &t);
 
     hit_correct = (hit == exp.hit);
     t_correct = !exp.hit || fabs(t - exp.t) <= EPSILON * fmax(fabs(t), fmax(fabs(exp.t), 1.0));

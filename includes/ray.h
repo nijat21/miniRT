@@ -35,7 +35,7 @@ void dbl_swap(double *a, double *b);
 bool select_t(double t0, double t1, double *t);
 bool hit_sphere(t_ray ray, t_sph sph, double *t1);
 bool hit_plane(t_ray ray, t_plane pl, double *t);
-bool hit_cyl(t_ray ray, t_cyl cyl, double *t);
+bool hit_cyl(t_ray ray, t_cyl *cyl, double *t);
 
 //---src/ray/hit_cyl_utils.c----------------------------
 bool select_cyl_t(double ts[], t_cyl_part labels[], double *t, t_cyl_part *part_hit);

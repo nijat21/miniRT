@@ -25,7 +25,7 @@ bool hit_circ_pl(t_ray ray, t_circle cir, double *t)
     return true;
 }
 
-bool hit_caps(t_cyl cyl, t_ray ray, double *t, t_cyl_part *cap)
+bool hit_caps(t_cyl *cyl, t_ray ray, double *t, t_cyl_part *cap)
 {
     t_vec tmp;
     t_circle top;
@@ -36,13 +36,13 @@ bool hit_caps(t_cyl cyl, t_ray ray, double *t, t_cyl_part *cap)
 
     ts[0] = DBL_MAX;
     ts[1] = DBL_MAX;
-    tmp = vec_scal_mul(cyl.norm, (cyl.h / 2));
-    top.cors = vec_add(cyl.cors, tmp);
-    top.norm = cyl.norm;
-    top.rad = cyl.rad;
-    btm.cors = vec_sub(cyl.cors, tmp);
-    btm.norm = vec_scal_mul(cyl.norm, -1);
-    btm.rad = cyl.rad;
+    tmp = vec_scal_mul(cyl->norm, (cyl->h / 2));
+    top.cors = vec_add(cyl->cors, tmp);
+    top.norm = cyl->norm;
+    top.rad = cyl->rad;
+    btm.cors = vec_sub(cyl->cors, tmp);
+    btm.norm = vec_scal_mul(cyl->norm, -1);
+    btm.rad = cyl->rad;
     hit_top = hit_circ_pl(ray, top, &ts[0]);
     hit_btm = hit_circ_pl(ray, btm, &ts[1]);
     if (!hit_top && !hit_btm)
@@ -50,7 +50,7 @@ bool hit_caps(t_cyl cyl, t_ray ray, double *t, t_cyl_part *cap)
     return select_cyl_t(ts, (t_cyl_part[]){TOP, BTM}, t, cap);
 }
 
-bool side_in_bounds(t_ray ray, t_cyl cyl, double roots[], double *t)
+bool side_in_bounds(t_ray ray, t_cyl *cyl, double roots[], double *t)
 {
     t_vec p;
     double p_proj;
@@ -59,15 +59,15 @@ bool side_in_bounds(t_ray ray, t_cyl cyl, double roots[], double *t)
 
     if (roots[0] > roots[1])
         dbl_swap(&roots[0], &roots[1]);
-    n_axis = vec_dot(cyl.cors, cyl.norm);
+    n_axis = vec_dot(cyl->cors, cyl->norm);
     i = 0;
     while (i < 2)
     {
         if (roots[i] > EPSILON)
         {
             p = vec_add(ray.orig, vec_scal_mul(ray.dir, roots[i]));
-            p_proj = vec_dot(p, cyl.norm);
-            if (p_proj >= (n_axis - cyl.h / 2) && p_proj <= (n_axis + cyl.h / 2))
+            p_proj = vec_dot(p, cyl->norm);
+            if (p_proj >= (n_axis - cyl->h / 2) && p_proj <= (n_axis + cyl->h / 2))
             {
                 *t = roots[i];
                 return true;
@@ -78,7 +78,7 @@ bool side_in_bounds(t_ray ray, t_cyl cyl, double roots[], double *t)
     return false;
 }
 
-bool hit_inf_cyl(t_ray ray, t_cyl cyl, double roots[], double *t)
+bool hit_inf_cyl(t_ray ray, t_cyl *cyl, double roots[], double *t)
 {
     t_vec oc;
     t_vec oc_perp;
@@ -89,14 +89,14 @@ bool hit_inf_cyl(t_ray ray, t_cyl cyl, double roots[], double *t)
     double disc;
     double sqrt_disc;
 
-    oc = vec_sub(ray.orig, cyl.cors);
-    oc_perp = vec_sub(oc, vec_scal_mul(cyl.norm, vec_dot(oc, cyl.norm)));
-    ray_perp = vec_sub(ray.dir, vec_scal_mul(cyl.norm, vec_dot(ray.dir, cyl.norm)));
+    oc = vec_sub(ray.orig, cyl->cors);
+    oc_perp = vec_sub(oc, vec_scal_mul(cyl->norm, vec_dot(oc, cyl->norm)));
+    ray_perp = vec_sub(ray.dir, vec_scal_mul(cyl->norm, vec_dot(ray.dir, cyl->norm)));
     a = vec_dot(ray_perp, ray_perp);
     if (a < EPSILON)
         return false;
     b = 2.0 * vec_dot(oc_perp, ray_perp);
-    c = vec_dot(oc_perp, oc_perp) - cyl.rad * cyl.rad;
+    c = vec_dot(oc_perp, oc_perp) - cyl->rad * cyl->rad;
     disc = b * b - 4 * a * c;
     if (disc < 0.0)
         return false;
@@ -106,7 +106,7 @@ bool hit_inf_cyl(t_ray ray, t_cyl cyl, double roots[], double *t)
     return side_in_bounds(ray, cyl, roots, t);
 }
 
-bool hit_cyl(t_ray ray, t_cyl cyl, double *t)
+bool hit_cyl(t_ray ray, t_cyl *cyl, double *t)
 {
     double roots[2];
     double side_t;
@@ -115,15 +115,15 @@ bool hit_cyl(t_ray ray, t_cyl cyl, double *t)
     bool h_caps;
 
     h_side = hit_inf_cyl(ray, cyl, roots, &side_t);
-    h_caps = hit_caps(cyl, ray, &cap_t, &cyl.part_hit);
+    h_caps = hit_caps(cyl, ray, &cap_t, &cyl->part_hit);
     if (h_side && h_caps)
-        select_cyl_t((double[]){side_t, cap_t}, (t_cyl_part[]){TOP, cyl.part_hit}, t, &cyl.part_hit);
+        select_cyl_t((double[]){side_t, cap_t}, (t_cyl_part[]){SIDE, cyl->part_hit}, t, &cyl->part_hit);
     else if (h_caps)
         *t = cap_t;
     else if (h_side)
     {
         *t = side_t;
-        cyl.part_hit = SIDE;
+        cyl->part_hit = SIDE;
     }
     else
         return false;

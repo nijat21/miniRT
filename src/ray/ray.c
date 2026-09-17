@@ -28,6 +28,7 @@ static bool single_ray(t_hit *hit, t_list *objs, t_ray ray)
     double cur_t;
     t_list *tmp;
     t_obj *obj;
+    bool res;
 
     hit->t = DBL_MAX;
     hit->hit = false;
@@ -36,13 +37,14 @@ static bool single_ray(t_hit *hit, t_list *objs, t_ray ray)
     {
         obj = tmp->content;
         if (obj->type == PLANE)
-            assign_hit(hit, obj, hit_plane(ray, *(t_plane *)obj->data, &cur_t), cur_t);
+            res = hit_plane(ray, *(t_plane *)obj->data, &cur_t);
         else if (obj->type == SPHERE)
-            assign_hit(hit, obj, hit_sphere(ray, *(t_sph *)obj->data, &cur_t), cur_t);
+            res = hit_sphere(ray, *(t_sph *)obj->data, &cur_t);
         else if (obj->type == CYLINDER)
-            assign_hit(hit, obj, hit_cyl(ray, *(t_cyl *)obj->data, &cur_t), cur_t);
+            res = hit_cyl(ray, (t_cyl *)obj->data, &cur_t);
         else
             return return_err(ERR_WRONG_OBJ);
+        assign_hit(hit, obj, res, cur_t);
         tmp = tmp->next;
     }
     return true;
@@ -55,15 +57,13 @@ bool shoot_ray(t_disp *disp, t_scene *scene, t_ray ray, double xy[], double ij[]
     t_vec px;
     t_hit hit;
 
-    // Check by rendering images later
     right = vec_scal_mul(scene->cam.right, xy[0]);
     up = vec_scal_mul(scene->cam.up, xy[1]);
     px = vec_add(vec_add(scene->cam.cors, scene->cam.norm), vec_add(right, up));
     ray.dir = normalize(vec_sub(px, ray.orig));
     if (!single_ray(&hit, scene->objs, ray))
         return false;
-    // COLOR THE PIXEL
-    color_px(disp, ij[0], ij[1], comp_hit_color(scene, &hit, ray));
+    color_px(disp, ij[1], ij[0], comp_hit_color(scene, &hit, ray));
     return true;
 }
 
@@ -79,18 +79,16 @@ bool shoot_rays(t_scene *scene, t_disp *disp)
     ray.orig = scene->cam.cors;
     vport = vport_init(disp, scene->cam.hfov);
     ij[0] = -1;
-    while (++ij[0] < disp->h - 1)
+    while (++ij[0] < disp->h)
     {
         ij[1] = -1;
-        while (++ij[1] < disp->w - 1)
+        while (++ij[1] < disp->w)
         {
             xy[0] = (ij[1] + 0.5f) * vport.unit - (vport.w / 2);
             xy[1] = (vport.h / 2) - (ij[0] + 0.5f) * vport.unit;
             if (!shoot_ray(disp, scene, ray, xy, ij))
                 return false;
         }
-        // if (ij[0] == 1) // --> testing only
-        //     return 1;
     }
     return true;
 }

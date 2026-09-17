@@ -94,7 +94,3 @@ bool hit_plane(t_ray ray, t_plane pl, double *t)
     *t = tmp;
     return true;
 }
-
-/*
-    SQUARE INTERSECTION ??
-*/

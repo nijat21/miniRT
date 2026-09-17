@@ -2,6 +2,13 @@
 #include <ray.h>
 #include <error_handler.h>
 
+t_vec face_norm(t_vec norm, t_vec ray_dir)
+{
+    if (vec_dot(norm, ray_dir) > 0)
+        return vec_scal_mul(norm, -1);
+    return norm;
+}
+
 void cyl_surf_norm(t_hit *hit)
 {
     t_cyl *cyl;
@@ -39,14 +46,14 @@ void surf_norm(t_hit *hit, t_ray ray)
     }
     else if (hit->obj->type == PLANE)
     {
-        hit->surf_n = ((t_plane *)data)->norm;
+        hit->surf_n = face_norm(((t_plane *)data)->norm, ray.dir);
         hit->rgb = ((t_plane *)data)->rgb;
     }
     else
         def_err();
 }
 
-double clamp(double val)
+int clamp(double val)
 {
     if (val < 0)
     {
@@ -61,9 +68,18 @@ double clamp(double val)
     return (val);
 }
 
+t_rgb vec_to_rgb(t_vec rgb_rat)
+{
+    t_rgb res;
+
+    res.r = clamp(rgb_rat.x * 255);
+    res.g = clamp(rgb_rat.y * 255);
+    res.b = clamp(rgb_rat.z * 255);
+    return res;
+}
+
 t_rgb comp_hit_color(t_scene *scene, t_hit *hit, t_ray ray)
 {
-    t_vec rgb_ratio;
     t_rgb res;
 
     if (!hit->hit)
@@ -71,10 +87,7 @@ t_rgb comp_hit_color(t_scene *scene, t_hit *hit, t_ray ray)
     else
     {
         surf_norm(hit, ray);
-        rgb_ratio = comp_color(scene, hit);
-        res.r = (int)clamp(rgb_ratio.x * 255);
-        res.g = (int)clamp(rgb_ratio.y * 255);
-        res.b = (int)clamp(rgb_ratio.z * 255);
+        res = vec_to_rgb(comp_color(scene, hit));
     }
     return res;
 }

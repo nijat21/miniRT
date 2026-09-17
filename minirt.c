@@ -15,7 +15,10 @@ int main(int ac, char **av)
     if (!parse_scene(av[1], &scene))
         return (print_err(ERR_PARSING_FAILED), 1);
 
-    disp = disp_init(1336, 768);
+    if (scene.has_res)
+        disp = disp_init(scene.w, scene.h);
+    else
+        disp = disp_init(1280, 720);
     if (!disp)
         return EXIT_FAILURE;
 
