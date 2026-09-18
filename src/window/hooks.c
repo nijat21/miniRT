@@ -1,7 +1,8 @@
 #include <stdlib.h>
 #include <window.h>
 
-void cleanup(t_disp *disp) {
+void cleanup(t_disp *disp)
+{
     if (!disp)
         return;
     free(disp->mlx);
@@ -10,15 +11,20 @@ void cleanup(t_disp *disp) {
     free(disp);
 }
 
-int close_win(t_disp *disp) {
+int close_win(void *param)
+{
+    t_disp *disp;
+
+    disp = (t_disp *)param;
     cleanup(disp);
     exit(EXIT_SUCCESS);
     return (0);
 }
 
-int key_hook(int keycode, t_disp *disp) {
+int key_hook(int keycode, void *param)
+{
     if (keycode == 53 || keycode == 65307)
-        return close_win(disp);
+        return close_win((t_disp *)param);
     return (0);
 }
 

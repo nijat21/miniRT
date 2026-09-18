@@ -58,8 +58,8 @@ t_img *img_init(t_disp *disp);
 
 //---src/window/hooks.c-----------------------------------------------------
 void cleanup(t_disp *disp);
-int close_win(t_disp *disp);
-int key_hook(int keycode, t_disp *disp);
+int close_win(void *param);
+int key_hook(int keycode, void *param);
 
 //---src/window/drawer.c-----------------------------------------------------
 void color_px(t_disp *disp, int x, int y, t_rgb rgb);
