@@ -21,7 +21,7 @@ void	parse_camera(char **tokens, t_scene *scene)
 	if (vec_len(cam.norm) == 0.0)
 		error(scene, "Camera orientation cannot be zero");
 	cam.norm = normalize(cam.norm);
-	cam.hfov = ft_atoi(tokens[3]);
+	cam.hfov = parse_int(tokens[3], scene);
 	if (cam.hfov < 0 || cam.hfov > 180)
 		error(scene, "Invalid FOV range");
 	scene->cam = cam;
