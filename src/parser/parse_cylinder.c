@@ -16,7 +16,7 @@ tokens[5] color
 static t_cyl	*init_cyl(char **tokens, t_scene *scene)
 {
 	t_cyl	*cy;
-	
+
 	cy = malloc(sizeof(t_cyl));
 	if (!cy)
 		error(scene, "Malloc failed");
@@ -47,5 +47,5 @@ void	parse_cylinder(char **tokens, t_scene *scene)
 	if (count_tokens(tokens) != 6)
 		error(scene, "Invalid cylinder format");
 	cy = init_cyl(tokens, scene);
-	add_obj(scene, CYLINDER, cy);	
+	add_obj(scene, CYLINDER, cy);
 }

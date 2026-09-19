@@ -33,7 +33,6 @@ int	count_tokens(char **tokens)
 	return (i);
 }
 
-
 double	parse_double(char *str, t_scene *scene)
 {
 	double	val;
