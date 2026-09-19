@@ -29,6 +29,8 @@ SRCS:=	minirt.c \
 				src/parser/parse_split_spaces.c \
 				src/parser/parse_utils.c \
 				src/parser/parse_utils2.c \
+				src/parser/parse_utils3.c \
+				src/parser/parse_utils4.c \
 				src/parser/parser.c \
 		src/window/win.c \
 		src/window/drawer.c \

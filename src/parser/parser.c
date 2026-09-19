@@ -44,10 +44,6 @@ void	print_scene(t_scene *scene)
 
 	printf("\n");
 	printf("========== PARSED SCENE ==========\n");
-	printf("\n[RESOLUTION]\n");
-	printf("has_res : %d\n", scene->has_res);
-	printf("width   : %d\n", scene->w);
-	printf("height  : %d\n", scene->h);
 	printf("\n[AMBIENT]\n");
 	printf("has_amb : %d\n", scene->has_amb);
 	if (scene->has_amb)
