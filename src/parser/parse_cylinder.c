@@ -13,41 +13,54 @@ tokens[5] color
 
 */
 
-void	parse_cylinder(char **tokens, t_scene *scene)
+static t_cyl	*init_cyl(char **tokens, t_scene *scene)
 {
-	t_obj	*obj;
 	t_cyl	*cy;
-	t_list	*node;
-
-	if (count_tokens(tokens) != 6)
-		error(scene, "Invalid cylinder format");
+	
 	cy = malloc(sizeof(t_cyl));
-	obj = malloc(sizeof(t_obj));
-	if (!cy || !obj)
-	{
-		free(cy);
-		free(obj);
+	if (!cy)
 		error(scene, "Malloc failed");
-	}
 	cy->cors = parse_vec(tokens[1], scene);
 	cy->norm = parse_vec(tokens[2], scene);
 	if (vec_len(cy->norm) == 0)
+	{
+		free(cy);
 		error(scene, "Cylinder norm cannot be zero");
+	}
 	cy->norm = normalize(cy->norm);
 	cy->rad = parse_double(tokens[3], scene) / 2.0;
 	cy->h = parse_double(tokens[4], scene);
 	if (cy->rad <= 0 || cy->h <= 0)
-		error(scene, "Cylinder diameter and height must be > 0");
-	cy->half_h = cy->h / 2.0;
-	cy->rgb = parse_color(tokens[5], scene);
-	obj->type = CYLINDER;
-	obj->data = cy;
-	node = ft_lstnew(obj);
-	if (!node)
 	{
 		free(cy);
-		free(obj);
+		error(scene, "Cylinder diameter and height must be > 0");
+	}
+	cy->half_h = cy->h / 2.0;
+	cy->rgb = parse_color(tokens[5], scene);
+	return (cy);
+}
+
+static t_obj	*create_cyl(t_cyl *cy, t_scene *scene)
+{
+	t_obj	*obj;
+
+	obj = malloc(sizeof(t_obj));
+	if (!obj)
+	{
+		free(cy);
 		error(scene, "Malloc failed");
 	}
-	ft_lstadd_back(&scene->objs, node);
+	obj->type = CYLINDER;
+	obj->data = cy;
+	return (obj);
+}
+
+void	parse_cylinder(char **tokens, t_scene *scene)
+{
+	t_cyl	*cy;
+
+	if (count_tokens(tokens) != 6)
+		error(scene, "Invalid cylinder format");
+	cy = init_cyl(tokens, scene);
+	add_obj(scene, CYLINDER, cy);	
 }

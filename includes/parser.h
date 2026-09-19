@@ -29,6 +29,7 @@ t_vec	parse_vec(char *str, t_scene *scene);
 t_vec	parse_color(char *str, t_scene *scene);
 double	parse_double(char *str, t_scene *scene);
 int		parse_int(char *str, t_scene *scene);
+void	add_obj(t_scene *scene, t_obj_type type, void *data);
 void	error(t_scene *scene, char *msg);
 int		count_tokens(char **tokens);
 int		parse_scene(char *filename, t_scene *scene);

@@ -95,3 +95,26 @@ int	parse_int(char *str, t_scene *scene)
 	}
 	return ((int)(val * sign));
 }
+
+void	add_obj(t_scene *scene, t_obj_type type, void *data)
+{
+	t_obj	*obj;
+	t_list	*node;
+
+	obj = malloc(sizeof(t_obj));
+	if (!obj)
+	{
+		free(data);
+		error(scene, "Malloc failed");
+	}
+	obj->type = type;
+	obj->data = data;
+	node = ft_lstnew(obj);
+	if (!node)
+	{
+		free(obj);
+		free(data);
+		error(scene, "Malloc failed");
+	}
+	ft_lstadd_back(&scene->objs, node);
+}
