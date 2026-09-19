@@ -27,21 +27,7 @@ static t_plane	*init_plane(char **tokens, t_scene *scene)
 	}
 	pl->norm = normalize(pl->norm);
 	pl->rgb = parse_color(tokens[3], scene);
-}
-
-static t_plane	*create_pl(t_plane *pl, t_scene *scene)
-{
-	t_obj	*obj;
-
-	obj = malloc(sizeof(t_obj));
-	if (!obj)
-	{
-		free(pl);
-		error(scene, "Malloc failed");
-	}
-	obj->type = PLANE;
-	obj->data = pl;
-	return (obj);
+	return (pl);
 }
 
 void	parse_plane(char **tokens, t_scene *scene)

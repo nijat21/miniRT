@@ -1,13 +1,6 @@
 #ifndef PARSER_H
 # define PARSER_H
 
-# define WIDTH 1600
-# define HEIGHT 800
-# define COLOR_WHITE 0xffffffff
-# define COLOR_BLACK 0x00000000
-# define COLOR_RAY 0xffd43b
-# define RAYS_NUMBER 100
-
 # include <fcntl.h>
 # include <sys/stat.h>
 # include <stdbool.h>

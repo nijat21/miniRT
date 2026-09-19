@@ -40,21 +40,6 @@ static t_cyl	*init_cyl(char **tokens, t_scene *scene)
 	return (cy);
 }
 
-static t_obj	*create_cyl(t_cyl *cy, t_scene *scene)
-{
-	t_obj	*obj;
-
-	obj = malloc(sizeof(t_obj));
-	if (!obj)
-	{
-		free(cy);
-		error(scene, "Malloc failed");
-	}
-	obj->type = CYLINDER;
-	obj->data = cy;
-	return (obj);
-}
-
 void	parse_cylinder(char **tokens, t_scene *scene)
 {
 	t_cyl	*cy;
