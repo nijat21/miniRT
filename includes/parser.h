@@ -23,14 +23,12 @@ void	parse_camera(char **tokens, t_scene *scene);
 void	parse_cylinder(char **tokens, t_scene *scene);
 void	parse_light(char **tokens, t_scene *scene);
 void	parse_plane(char **tokens, t_scene *scene);
-void	parse_resolution(char **tokens, t_scene *scene);
 void	parse_sphere(char **tokens, t_scene *scene);
 char	**ft_split_spaces(char *str);
-void	parse_square(char **tokens, t_scene *scene);
-t_vec	parse_vec(char *str);
-t_vec	parse_color(char *str);
-double	parse_double(char *str);\
-int		parse_int(char *str);
+t_vec	parse_vec(char *str, t_scene *scene);
+t_vec	parse_color(char *str, t_scene *scene);
+double	parse_double(char *str, t_scene *scene);
+int		parse_int(char *str, t_scene *scene);
 void	error(t_scene *scene, char *msg);
 int		count_tokens(char **tokens);
 int		parse_scene(char *filename, t_scene *scene);

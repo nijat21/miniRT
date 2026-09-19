@@ -14,8 +14,6 @@ void	parse_line(char *line, t_scene *scene)
 			free_split(tokens, count_tokens(tokens));
 		return ;
 	}
-	if (!ft_strncmp(tokens[0], "R", 2))
-		parse_resolution(tokens, scene);
 	else if (!ft_strncmp(tokens[0], "A", 2))
 		parse_ambient(tokens, scene);
 	else if (!ft_strncmp(tokens[0], "C", 2))
@@ -26,8 +24,6 @@ void	parse_line(char *line, t_scene *scene)
 		parse_sphere(tokens, scene);
 	else if (!ft_strncmp(tokens[0], "pl", 3))
 		parse_plane(tokens, scene);
-	else if (!ft_strncmp(tokens[0], "sq", 3))
-		parse_square(tokens, scene);
 	else if (!ft_strncmp(tokens[0], "cy", 3))
 		parse_cylinder(tokens, scene);
 	else
@@ -134,8 +130,6 @@ void	print_scene(t_scene *scene)
 
 void	validate_scene(t_scene *scene)
 {
-	if (!scene->has_res)
-		error(scene, "Missing resolution");
 	if (!scene->has_amb)
 		error(scene, "Missing ambient");
 	if (!scene->has_cam)

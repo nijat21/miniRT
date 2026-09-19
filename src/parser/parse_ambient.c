@@ -15,12 +15,12 @@ Tokens:
 void	parse_ambient(char **tokens, t_scene *scene)
 {
 	if (scene->has_amb)
-		error("Ambient already defined");
+		error(scene, "Ambient already defined");
 	if (count_tokens(tokens) != 3)
-		error("Invalid ambient format");
-	scene->amb.ratio = parse_double(tokens[1]);
+		error(scene, "Invalid ambient format");
+	scene->amb.ratio = parse_double(tokens[1], scene);
 	if (scene->amb.ratio < 0.0 || scene->amb.ratio > 1.0)
-		error("Ambient ratio must be in range [0.0,1.0]");
-	scene->amb.rgb = parse_color(tokens[2]);
+		error(scene, "Ambient ratio must be in range [0.0,1.0]");
+	scene->amb.rgb = parse_color(tokens[2], scene);
 	scene->has_amb = true;
 }
