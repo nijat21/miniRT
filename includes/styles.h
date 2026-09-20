@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   styles.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abraz-ab <abraz-ab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nismayil <nismayil@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 18:26:50 by abraz-ab          #+#    #+#             */
-/*   Updated: 2026/09/20 18:26:51 by abraz-ab         ###   ########.fr       */
+/*   Updated: 2026/09/20 22:58:43 by nismayil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,31 +35,5 @@
 # define MAGENTA "\033[35m"
 # define CYAN "\033[36m"
 # define WHITE "\033[37m"
-
-/* ── Bright colors ────────────────────────────────────── */
-
-# define BRIGHT_BLACK "\033[90m"
-# define BRIGHT_RED "\033[91m"
-# define BRIGHT_GREEN "\033[92m"
-# define BRIGHT_YELLOW "\033[93m"
-# define BRIGHT_BLUE "\033[94m"
-# define BRIGHT_MAGENTA "\033[95m"
-# define BRIGHT_CYAN "\033[96m"
-# define BRIGHT_WHITE "\033[97m"
-
-/* ── Useful combinations ──────────────────────────────── */
-
-# define SUCCESS GREEN BOLD
-# define ERROR RED BOLD
-# define WARNING YELLOW BOLD
-# define INFO CYAN BOLD
-# define MUTED DIM
-# define HEADER BLUE BOLD
-
-/* ── Test symbols ─────────────────────────────────────── */
-
-# define PASS GREEN "✓" RESET
-# define FAIL RED "✗" RESET
-# define ARROW CYAN "→" RESET
 
 #endif // STYLES_H

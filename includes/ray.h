@@ -6,7 +6,7 @@
 /*   By: nismayil <nismayil@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 18:26:47 by abraz-ab          #+#    #+#             */
-/*   Updated: 2026/09/20 20:52:26 by nismayil         ###   ########.fr       */
+/*   Updated: 2026/09/20 21:51:24 by nismayil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,9 @@ bool			hit_cyl(t_ray ray, t_cyl *cyl, t_cyl_part *part_hit, double *t);
 
 //---src/ray/hit_cyl_utils.c----------------------------
 bool			select_cyl_t(double ts[], t_cyl_part labels[], double *t,
+					t_cyl_part *part_hit);
+bool			hit_circ_pl(t_ray ray, t_circle cir, double *t);
+bool			hit_caps(t_cyl *cyl, t_ray ray, double *t,
 					t_cyl_part *part_hit);
 
 //---src/ray/comp_hit.c----------------------------
