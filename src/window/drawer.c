@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   drawer.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nismayil <nismayil@student.42lisboa.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/20 20:54:27 by nismayil          #+#    #+#             */
+/*   Updated: 2026/09/20 20:55:20 by nismayil         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minirt.h>
 #include <window.h>
 
@@ -15,7 +27,5 @@ void color_px(t_disp *disp, int x, int y, t_rgb rgb)
         return;
     dst = disp->img->addr + (y * disp->img->line_len + x * (disp->img->bits_pp / 8));
     color = rgb_to_int(rgb);
-    if (color > 0)
-        printf("Color: %d\n", color);
     *(unsigned int *)dst = color;
 }

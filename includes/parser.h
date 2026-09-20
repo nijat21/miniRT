@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abraz-ab <abraz-ab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nismayil <nismayil@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 18:26:44 by abraz-ab          #+#    #+#             */
-/*   Updated: 2026/09/20 18:26:45 by abraz-ab         ###   ########.fr       */
+/*   Updated: 2026/09/20 18:37:47 by nismayil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
-# include <fcntl.h>
-# include <sys/stat.h>
-# include <stdbool.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdio.h>
-# include <math.h>
 # include "minirt.h"
+# include <fcntl.h>
+# include <math.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <sys/stat.h>
+# include <unistd.h>
 
 // parser
 void	parse_ambient(char **tokens, t_scene *scene);

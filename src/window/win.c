@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   win.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nismayil <nismayil@student.42lisboa.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/20 20:54:33 by nismayil          #+#    #+#             */
+/*   Updated: 2026/09/20 20:55:06 by nismayil         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <error_handler.h>
 #include <libft.h>
 #include <window.h>
@@ -92,4 +104,27 @@ t_img *img_init(t_disp *disp)
         return NULL;
     }
     return img_data(disp, img);
+}
+
+t_disp *setup_disp(const int width, const int height)
+{
+    t_disp *disp;
+
+    disp = disp_init(width, height);
+    if (!disp)
+        return NULL;
+
+    disp->win = win_init(disp);
+    if (!disp->win)
+    {
+        cleanup(disp);
+        return NULL;
+    }
+    disp->img = img_init(disp);
+    if (!disp->img)
+    {
+        cleanup(disp);
+        return NULL;
+    }
+    return disp;
 }

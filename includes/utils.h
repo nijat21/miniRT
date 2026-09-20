@@ -11,8 +11,9 @@
 /* ************************************************************************** */
 
 #ifndef UTILS_H
-#define UTILS_H
+# define UTILS_H
 
-void print_vec(const char *name, t_vec v);
+void	print_vec(const char *name, t_vec v);
+void	dbl_swap(double *a, double *b);
 
 #endif // UTILS_H

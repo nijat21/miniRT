@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   vec_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nismayil <nismayil@student.42lisboa.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/20 20:54:20 by nismayil          #+#    #+#             */
+/*   Updated: 2026/09/20 20:55:16 by nismayil         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <math.h>
 #include <stdbool.h>
 #include <vec.h>
@@ -35,9 +47,4 @@ t_vec normalize(t_vec vec)
 bool vec_par_norm(t_vec va, t_vec vb)
 {
     return fabs(vec_dot(va, vb)) >= (1.0 - EPSILON);
-}
-
-bool vec_perp_norm(t_vec va, t_vec vb)
-{
-    return fabs(vec_dot(va, vb)) < EPSILON;
 }

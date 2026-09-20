@@ -1,8 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hit_cyl.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nismayil <nismayil@student.42lisboa.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/20 20:53:59 by nismayil          #+#    #+#             */
+/*   Updated: 2026/09/20 20:55:22 by nismayil         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <math.h>
 #include <minirt.h>
 #include <ray.h>
 #include <vec.h>
 #include <float.h>
+#include <utils.h>
+#include <error_handler.h>
 
 bool hit_circ_pl(t_ray ray, t_circle cir, double *t)
 {
@@ -25,14 +39,14 @@ bool hit_circ_pl(t_ray ray, t_circle cir, double *t)
     return true;
 }
 
-bool hit_caps(t_cyl *cyl, t_ray ray, double *t, t_cyl_part *cap)
+bool hit_caps(t_cyl *cyl, t_ray ray, double *t, t_cyl_part *part_hit)
 {
     t_vec tmp;
     t_circle top;
     t_circle btm;
+    bool top_hit;
+    bool btm_hit;
     double ts[2];
-    bool hit_top;
-    bool hit_btm;
 
     ts[0] = DBL_MAX;
     ts[1] = DBL_MAX;
@@ -43,11 +57,11 @@ bool hit_caps(t_cyl *cyl, t_ray ray, double *t, t_cyl_part *cap)
     btm.cors = vec_sub(cyl->cors, tmp);
     btm.norm = vec_scal_mul(cyl->norm, -1);
     btm.rad = cyl->rad;
-    hit_top = hit_circ_pl(ray, top, &ts[0]);
-    hit_btm = hit_circ_pl(ray, btm, &ts[1]);
-    if (!hit_top && !hit_btm)
+    top_hit = hit_circ_pl(ray, top, &ts[0]);
+    btm_hit = hit_circ_pl(ray, btm, &ts[1]);
+    if (!top_hit && !btm_hit)
         return false;
-    return select_cyl_t(ts, (t_cyl_part[]){TOP, BTM}, t, cap);
+    return select_cyl_t(ts, (t_cyl_part[]){TOP, BTM}, t, part_hit);
 }
 
 bool side_in_bounds(t_ray ray, t_cyl *cyl, double roots[], double *t)
@@ -106,7 +120,7 @@ bool hit_inf_cyl(t_ray ray, t_cyl *cyl, double roots[], double *t)
     return side_in_bounds(ray, cyl, roots, t);
 }
 
-bool hit_cyl(t_ray ray, t_cyl *cyl, double *t)
+bool hit_cyl(t_ray ray, t_cyl *cyl, t_cyl_part *part_hit, double *t)
 {
     double roots[2];
     double side_t;
@@ -115,15 +129,15 @@ bool hit_cyl(t_ray ray, t_cyl *cyl, double *t)
     bool h_caps;
 
     h_side = hit_inf_cyl(ray, cyl, roots, &side_t);
-    h_caps = hit_caps(cyl, ray, &cap_t, &cyl->part_hit);
+    h_caps = hit_caps(cyl, ray, &cap_t, part_hit);
     if (h_side && h_caps)
-        select_cyl_t((double[]){side_t, cap_t}, (t_cyl_part[]){SIDE, cyl->part_hit}, t, &cyl->part_hit);
+        select_cyl_t((double[]){side_t, cap_t}, (t_cyl_part[]){SIDE, *part_hit}, t, part_hit);
     else if (h_caps)
         *t = cap_t;
     else if (h_side)
     {
         *t = side_t;
-        cyl->part_hit = SIDE;
+        *part_hit = SIDE;
     }
     else
         return false;

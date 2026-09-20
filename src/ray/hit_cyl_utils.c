@@ -1,5 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hit_cyl_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nismayil <nismayil@student.42lisboa.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/20 20:53:56 by nismayil          #+#    #+#             */
+/*   Updated: 2026/09/20 20:55:09 by nismayil         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdbool.h>
 #include <minirt.h>
+#include <ray.h>
 
 bool select_cyl_t(double ts[], t_cyl_part labels[], double *t, t_cyl_part *part_hit)
 {

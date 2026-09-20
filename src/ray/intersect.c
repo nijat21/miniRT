@@ -1,16 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   intersect.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nismayil <nismayil@student.42lisboa.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/20 20:54:03 by nismayil          #+#    #+#             */
+/*   Updated: 2026/09/20 20:55:26 by nismayil         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <math.h>
 #include <minirt.h>
 #include <ray.h>
 #include <vec.h>
-
-void dbl_swap(double *a, double *b)
-{
-    double tmp;
-
-    tmp = *a;
-    *a = *b;
-    *b = tmp;
-}
+#include <utils.h>
 
 bool select_t(double t0, double t1, double *t)
 {

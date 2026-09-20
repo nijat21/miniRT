@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ray_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nismayil <nismayil@student.42lisboa.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/20 20:54:06 by nismayil          #+#    #+#             */
+/*   Updated: 2026/09/20 20:55:25 by nismayil         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <ray.h>
 #include <vec.h>
 #include <math.h>
@@ -24,9 +36,7 @@ t_cam cam_init(t_cam cam)
     world = (t_vec){0, 1, 0};
     if (vec_par_norm(cam.norm, world))
         world = (t_vec){0, 0, 1};
-    // cam.right = normalize(vec_cross(cam.norm, world));
     cam.right = normalize(vec_cross(world, cam.norm));
-    // cam.up = normalize(vec_cross(cam.right, cam.norm));
     cam.up = normalize(vec_cross(cam.norm, cam.right));
     return cam;
 }

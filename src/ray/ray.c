@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ray.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nismayil <nismayil@student.42lisboa.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/20 20:54:09 by nismayil          #+#    #+#             */
+/*   Updated: 2026/09/20 20:55:10 by nismayil         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <math.h>
 #include <minirt.h>
 #include <ray.h>
@@ -41,7 +53,7 @@ static bool single_ray(t_hit *hit, t_list *objs, t_ray ray)
         else if (obj->type == SPHERE)
             res = hit_sphere(ray, *(t_sph *)obj->data, &cur_t);
         else if (obj->type == CYLINDER)
-            res = hit_cyl(ray, (t_cyl *)obj->data, &cur_t);
+            res = hit_cyl(ray, (t_cyl *)obj->data, &hit->part_hit, &cur_t);
         else
             return return_err(ERR_WRONG_OBJ);
         assign_hit(hit, obj, res, cur_t);
@@ -56,6 +68,7 @@ bool shoot_ray(t_disp *disp, t_scene *scene, t_ray ray, double xy[], double ij[]
     t_vec up;
     t_vec px;
     t_hit hit;
+    bool err;
 
     right = vec_scal_mul(scene->cam.right, xy[0]);
     up = vec_scal_mul(scene->cam.up, xy[1]);
@@ -63,11 +76,12 @@ bool shoot_ray(t_disp *disp, t_scene *scene, t_ray ray, double xy[], double ij[]
     ray.dir = normalize(vec_sub(px, ray.orig));
     if (!single_ray(&hit, scene->objs, ray))
         return false;
-    color_px(disp, ij[1], ij[0], comp_hit_color(scene, &hit, ray));
+    color_px(disp, ij[1], ij[0], comp_hit_color(scene, &hit, ray, &err));
+    if (err)
+        return false;
     return true;
 }
 
-// shoot rays for each pixel on viewport
 bool shoot_rays(t_scene *scene, t_disp *disp)
 {
     t_ray ray;

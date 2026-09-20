@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abraz-ab <abraz-ab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nismayil <nismayil@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 18:26:09 by abraz-ab          #+#    #+#             */
-/*   Updated: 2026/09/20 18:26:10 by abraz-ab         ###   ########.fr       */
+/*   Updated: 2026/09/20 20:27:08 by nismayil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 #include <parser.h>
 #include <utils.h>
 
-//this one doesnt need norminette its just for parsing debugging
-void	print_scene(t_scene *scene)
+// this one doesnt need norminette its just for parsing debugging
+void print_scene(t_scene *scene)
 {
-	t_list	*current;
-	t_obj	*obj;
-	t_sph	*sp;
-	t_plane	*pl;
-	t_cyl	*cyl;
+	t_list *current;
+	t_obj *obj;
+	t_sph *sp;
+	t_plane *pl;
+	t_cyl *cyl;
 
 	printf("\n");
 	printf("========== PARSED SCENE ==========\n");
@@ -31,9 +31,9 @@ void	print_scene(t_scene *scene)
 	{
 		printf("ratio : %.6f\n", scene->amb.ratio);
 		printf("color : %.6f,%.6f,%.6f\n",
-			scene->amb.rgb.x,
-			scene->amb.rgb.y,
-			scene->amb.rgb.z);
+			   scene->amb.rgb.x,
+			   scene->amb.rgb.y,
+			   scene->amb.rgb.z);
 	}
 	printf("\n[CAMERA]\n");
 	printf("has_cam : %d\n", scene->has_cam);
@@ -53,9 +53,9 @@ void	print_scene(t_scene *scene)
 		printf("\n");
 		printf("brightness: %.6f\n", scene->light.brightness);
 		printf("color : %.6f,%.6f,%.6f\n",
-			scene->light.rgb.x,
-			scene->light.rgb.y,
-			scene->light.rgb.z);
+			   scene->light.rgb.x,
+			   scene->light.rgb.y,
+			   scene->light.rgb.z);
 	}
 	printf("\n[OBJECTS]\n");
 	current = scene->objs;
@@ -70,9 +70,9 @@ void	print_scene(t_scene *scene)
 			printf("\n");
 			printf("radius   : %.6f\n", sp->rad);
 			printf("color    : %.6f,%.6f,%.6f\n",
-				sp->rgb.x,
-				sp->rgb.y,
-				sp->rgb.z);
+				   sp->rgb.x,
+				   sp->rgb.y,
+				   sp->rgb.z);
 		}
 		else if (obj->type == PLANE)
 		{
@@ -82,9 +82,9 @@ void	print_scene(t_scene *scene)
 			print_vec("normal", pl->norm);
 			printf("\n");
 			printf("color    : %.6f,%.6f,%.6f\n",
-				pl->rgb.x,
-				pl->rgb.y,
-				pl->rgb.z);
+				   pl->rgb.x,
+				   pl->rgb.y,
+				   pl->rgb.z);
 		}
 		else if (obj->type == CYLINDER)
 		{
@@ -96,16 +96,16 @@ void	print_scene(t_scene *scene)
 			printf("diameter : %.6f\n", cyl->rad * 2.0);
 			printf("height   : %.6f\n", cyl->h);
 			printf("color    : %.6f,%.6f,%.6f\n",
-				cyl->rgb.x,
-				cyl->rgb.y,
-				cyl->rgb.z);
+				   cyl->rgb.x,
+				   cyl->rgb.y,
+				   cyl->rgb.z);
 		}
 		current = current->next;
 	}
 	printf("\n==================================\n\n");
 }
 
-static void	parse_identifier(char **tokens, t_scene *scene)
+static void parse_identifier(char **tokens, t_scene *scene)
 {
 	if (!ft_strncmp(tokens[0], "A", 2))
 		parse_ambient(tokens, scene);
@@ -126,9 +126,9 @@ static void	parse_identifier(char **tokens, t_scene *scene)
 	}
 }
 
-void	parse_line(char *line, t_scene *scene)
+void parse_line(char *line, t_scene *scene)
 {
-	char	**tokens;
+	char **tokens;
 
 	tokens = ft_split_spaces(line);
 	if (!tokens)
@@ -136,16 +136,16 @@ void	parse_line(char *line, t_scene *scene)
 	if (!tokens[0])
 	{
 		free_split(tokens, count_tokens(tokens));
-		return ;
+		return;
 	}
 	parse_identifier(tokens, scene);
 	free_split(tokens, count_tokens(tokens));
 }
 
-int	parse_scene(char *filename, t_scene *scene)
+int parse_scene(char *filename, t_scene *scene)
 {
-	int		fd;
-	char	*line;
+	int fd;
+	char *line;
 
 	init_scene(scene);
 	fd = open(filename, O_RDONLY);
@@ -160,7 +160,7 @@ int	parse_scene(char *filename, t_scene *scene)
 	}
 	close(fd);
 	validate_scene(scene);
-	print_scene(scene);
-	clean_scene(scene);
+	// print_scene(scene);
+	// clean_scene(scene);
 	return (1);
 }
