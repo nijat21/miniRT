@@ -6,7 +6,7 @@
 /*   By: abraz-ab <abraz-ab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 18:25:34 by abraz-ab          #+#    #+#             */
-/*   Updated: 2026/09/20 18:25:35 by abraz-ab         ###   ########.fr       */
+/*   Updated: 2026/09/21 00:08:41 by abraz-ab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ tokens[5] color
 
 */
 
-static void	check_cylinder_norm(t_vec norm, t_scene *scene)
+static int	parse_cylinder_color(char *token, t_cyl *cy, t_scene *scene)
 {
-	if (norm.x < -1.0 || norm.x > 1.0
-		|| norm.y < -1.0 || norm.y > 1.0
-		|| norm.z < -1.0 || norm.z > 1.0)
-		error(scene, "Cylinder orientation must be in range [-1,1]");
-	if (vec_len(norm) == 0.0)
-		error(scene, "Cylinder norm cannot be zero");
+	if (!parse_color(token, &cy->rgb, scene))
+	{
+		scene->error_msg = "Invalid color";
+		return (0);
+	}
+	return (1);
 }
 
 static t_cyl	*init_cyl(char **tokens, t_scene *scene)
@@ -41,29 +41,32 @@ static t_cyl	*init_cyl(char **tokens, t_scene *scene)
 
 	cy = malloc(sizeof(t_cyl));
 	if (!cy)
-		error(scene, "Malloc failed");
-	cy->cors = parse_vec(tokens[1], scene);
-	cy->norm = parse_vec(tokens[2], scene);
-	check_cylinder_norm(cy->norm, scene);
-	cy->norm = normalize(cy->norm);
-	cy->rad = parse_double(tokens[3], scene) / 2.0;
-	cy->h = parse_double(tokens[4], scene);
-	if (cy->rad <= 0 || cy->h <= 0)
+	{
+		scene->error_msg = "Malloc failed";
+		return (NULL);
+	}
+	if (!parse_cylinder_vectors(tokens, cy, scene)
+		|| !parse_cylinder_size(tokens, cy, scene)
+		|| !parse_cylinder_color(tokens[5], cy, scene))
 	{
 		free(cy);
-		error(scene, "Cylinder diameter and height must be > 0");
+		return (NULL);
 	}
-	cy->half_h = cy->h / 2.0;
-	cy->rgb = parse_color(tokens[5], scene);
 	return (cy);
 }
 
-void	parse_cylinder(char **tokens, t_scene *scene)
+int	parse_cylinder(char **tokens, t_scene *scene)
 {
 	t_cyl	*cy;
 
 	if (count_tokens(tokens) != 6)
-		error(scene, "Invalid cylinder format");
+	{
+		scene->error_msg = "Invalid cylinder format";
+		return (0);
+	}
 	cy = init_cyl(tokens, scene);
+	if (!cy)
+		return (0);
 	add_obj(scene, CYLINDER, cy);
+	return (1);
 }

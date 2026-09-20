@@ -6,7 +6,7 @@
 /*   By: abraz-ab <abraz-ab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 18:26:00 by abraz-ab          #+#    #+#             */
-/*   Updated: 2026/09/20 18:26:01 by abraz-ab         ###   ########.fr       */
+/*   Updated: 2026/09/20 19:48:33 by abraz-ab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	check_digit(char c, long *val)
 	return (1);
 }
 
-int	parse_int(char *str, t_scene *scene)
+int	parse_int(char *str, int *result)
 {
 	int		i;
 	int		sign;
@@ -39,17 +39,18 @@ int	parse_int(char *str, t_scene *scene)
 	i = 0;
 	val = 0;
 	if (!str || !str[0])
-		error(scene, "Invalid integer");
+		return (0);
 	sign = get_sign(str[i]);
 	if (str[i] == '+' || str[i] == '-')
 		i++;
 	if (!str[i])
-		error(scene, "Invalid integer");
+		return (0);
 	while (str[i])
 	{
 		if (!check_digit(str[i], &val))
-			error(scene, "Invalid integer");
+			return (0);
 		i++;
 	}
-	return ((int)(val * sign));
+	*result = (int)(val * sign);
+	return (1);
 }

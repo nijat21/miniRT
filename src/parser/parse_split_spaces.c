@@ -6,88 +6,68 @@
 /*   By: abraz-ab <abraz-ab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 18:25:46 by abraz-ab          #+#    #+#             */
-/*   Updated: 2026/09/20 18:30:43 by abraz-ab         ###   ########.fr       */
+/*   Updated: 2026/09/21 00:17:36 by abraz-ab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minirt.h>
 #include <parser.h>
 
-static int	is_space(char c)
+static int	skip_spaces(char *str, int i)
 {
-	return (c == ' ' || c == '\t' || c == '\n');
+	while (str[i] && is_space(str[i]))
+		i++;
+	return (i);
 }
 
-static int	count_words(char *str)
+static int	fill_word(char *str, char **res, int *i, int j)
+{
+	int	start;
+
+	*i = skip_spaces(str, *i);
+	if (!str[*i])
+		return (0);
+	start = *i;
+	while (str[*i] && !is_space(str[*i]))
+		(*i)++;
+	res[j] = word_dup(str, start, *i);
+	if (!res[j])
+		return (-1);
+	return (1);
+}
+
+static int	fill_split(char *str, char **res)
 {
 	int	i;
-	int	count;
+	int	j;
+	int	status;
 
 	i = 0;
-	count = 0;
+	j = 0;
 	while (str[i])
 	{
-		while (str[i] && is_space(str[i]))
-			i++;
-		if (str[i])
+		status = fill_word(str, res, &i, j);
+		if (status == -1)
 		{
-			count++;
-			while (str[i] && !is_space(str[i]))
-				i++;
+			free_split(res, j);
+			return (0);
 		}
+		if (status == 0)
+			break ;
+		j++;
 	}
-	return (count);
+	res[j] = NULL;
+	return (1);
 }
 
-static char	*word_dup(char *str, int start, int end)
-{
-	char	*word;
-	int		i;
-
-	i = 0;
-	word = malloc(end - start + 1);
-	if (!word)
-		return (NULL);
-	while (start < end)
-		word[i++] = str[start++];
-	word[i] = '\0';
-	return (word);
-}
-
-static char	**split_alloc(char *str)
+char	**ft_split_spaces(char *str)
 {
 	char	**res;
 
 	res = malloc(sizeof(char *) * (count_words(str) + 1));
 	if (!res)
 		return (NULL);
-	return (res);
-}
-
-char	**ft_split_spaces(char *str)
-{
-	char	**res;
-	int		i;
-	int		j;
-	int		start;
-
-	i = 0;
-	j = 0;
-	res = split_alloc(str);
-	while (str[i])
-	{
-		while (str[i] && is_space(str[i]))
-			i++;
-		if (!str[i])
-			break ;
-		start = i;
-		while (str[i] && !is_space(str[i]))
-			i++;
-		res[j] = word_dup(str, start, i);
-		if (!res[j])
-			return (free_split(res, j));
-		j++;
-	}
-	res[j] = NULL;
+	if (!fill_split(str, res))
+		return (NULL);
 	return (res);
 }

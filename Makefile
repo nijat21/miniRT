@@ -22,11 +22,14 @@ INCLUDES:=-I. -I./includes -I./src/Libft
 SRCS:=	minirt.c \
 				src/parser/parse_ambient.c \
 				src/parser/parse_camera.c \
+				src/parser/parse_color.c \
+				src/parser/parse_cylinder_utils.c \
 				src/parser/parse_cylinder.c \
 				src/parser/parse_light.c \
 				src/parser/parse_plane.c \
 				src/parser/parse_sphere.c \
 				src/parser/parse_split_spaces.c \
+				src/parser/parse_split_spaces2.c \
 				src/parser/parse_utils.c \
 				src/parser/parse_utils2.c \
 				src/parser/parse_utils3.c \
@@ -56,7 +59,6 @@ VALGRIND = valgrind \
 			--track-fds=yes \
 			--show-leak-kinds=all \
 			--track-origins=yes \
-			#--suppressions=readline.supp
 
 LIBFT_DIR=src/Libft
 LIBFT_MAKE=make -C $(LIBFT_DIR)

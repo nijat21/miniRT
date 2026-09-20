@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nismayil <nismayil@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: abraz-ab <abraz-ab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 18:26:44 by abraz-ab          #+#    #+#             */
-/*   Updated: 2026/09/20 18:37:47 by nismayil         ###   ########.fr       */
+/*   Updated: 2026/09/21 00:27:41 by abraz-ab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,24 +23,30 @@
 # include <unistd.h>
 
 // parser
-void	parse_ambient(char **tokens, t_scene *scene);
-void	parse_camera(char **tokens, t_scene *scene);
-void	parse_cylinder(char **tokens, t_scene *scene);
-void	parse_light(char **tokens, t_scene *scene);
-void	parse_plane(char **tokens, t_scene *scene);
-void	parse_sphere(char **tokens, t_scene *scene);
+int		parse_ambient(char **tokens, t_scene *scene);
+int		parse_camera(char **tokens, t_scene *scene);
+int		parse_cylinder(char **tokens, t_scene *scene);
+int		parse_light(char **tokens, t_scene *scene);
+int		parse_plane(char **tokens, t_scene *scene);
+int		parse_sphere(char **tokens, t_scene *scene);
+int		check_cylinder_norm(t_vec norm, t_scene *scene);
+int		parse_cylinder_vectors(char **tokens, t_cyl *cy, t_scene *scene);
+int		parse_cylinder_size(char **tokens, t_cyl *cy, t_scene *scene);
+int		is_space(char c);
+int		count_words(char *str);
+char	*word_dup(char *str, int start, int end);
 char	**ft_split_spaces(char *str);
-t_vec	parse_vec(char *str, t_scene *scene);
-t_vec	parse_color(char *str, t_scene *scene);
-double	parse_double(char *str, t_scene *scene);
-int		parse_int(char *str, t_scene *scene);
+int		parse_vec(char *str, t_vec *result, t_scene *scene);
+int		parse_color(char *str, t_vec *result, t_scene *scene);
+int		parse_double(char *str, double *result);
+int		parse_int(char *str, int *result);
 void	add_obj(t_scene *scene, t_obj_type type, void *data);
 void	error(t_scene *scene, char *msg);
 int		count_tokens(char **tokens);
 int		parse_scene(char *filename, t_scene *scene);
 int		ft_atof(const char *str, double *result);
 void	*free_split(char **strs, int count);
-void	parse_line(char *line, t_scene *scene);
+int		parse_line(char *line, t_scene *scene);
 void	free_obj(void *content);
 void	clean_scene(t_scene *scene);
 void	init_scene(t_scene *scene);

@@ -6,7 +6,7 @@
 /*   By: abraz-ab <abraz-ab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 18:25:53 by abraz-ab          #+#    #+#             */
-/*   Updated: 2026/09/20 18:25:54 by abraz-ab         ###   ########.fr       */
+/*   Updated: 2026/09/20 21:21:57 by abraz-ab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,9 @@ int	count_tokens(char **tokens)
 	return (i);
 }
 
-double	parse_double(char *str, t_scene *scene)
+int	parse_double(char *str, double *result)
 {
-	double	val;
-
-	if (ft_atof(str, &val) != 0)
-		error(scene, "Invalid number");
-	return (val);
+	if (!str || ft_atof(str, result) != 0)
+		return (0);
+	return (1);
 }

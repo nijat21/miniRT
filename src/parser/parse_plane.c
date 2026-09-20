@@ -6,7 +6,7 @@
 /*   By: abraz-ab <abraz-ab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 18:25:40 by abraz-ab          #+#    #+#             */
-/*   Updated: 2026/09/20 18:25:41 by abraz-ab         ###   ########.fr       */
+/*   Updated: 2026/09/20 23:21:49 by abraz-ab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,49 @@ tokens[3] color
 
 */
 
-static void	check_plane_norm(t_vec norm, t_scene *scene)
+static int	check_plane_norm(t_vec norm, t_scene *scene)
 {
 	if (norm.x < -1.0 || norm.x > 1.0
 		|| norm.y < -1.0 || norm.y > 1.0
 		|| norm.z < -1.0 || norm.z > 1.0)
-		error(scene, "Plane orientation must be in range [-1,1]");
+	{
+		scene->error_msg = "Plane orientation must be in range [-1.0,1.0]";
+		return (0);
+	}
 	if (vec_len(norm) == 0.0)
-		error(scene, "Plane norm cannot be zero");
+	{
+		scene->error_msg = "Plane orientation cannot be zero";
+		return (0);
+	}
+	return (1);
+}
+
+static int	parse_plane_vectors(char **tokens, t_plane *pl, t_scene *scene)
+{
+	if (!parse_vec(tokens[1], &pl->cors, scene))
+	{
+		scene->error_msg = "Invalid position";
+		return (0);
+	}
+	if (!parse_vec(tokens[2], &pl->norm, scene))
+	{
+		scene->error_msg = "Invalid orientation";
+		return (0);
+	}
+	if (!check_plane_norm(pl->norm, scene))
+		return (0);
+	pl->norm = normalize(pl->norm);
+	return (1);
+}
+
+static int	parse_plane_color(char *token, t_plane *pl, t_scene *scene)
+{
+	if (!parse_color(token, &pl->rgb, scene))
+	{
+		scene->error_msg = "Invalid color";
+		return (0);
+	}
+	return (1);
 }
 
 static t_plane	*init_plane(char **tokens, t_scene *scene)
@@ -39,21 +74,31 @@ static t_plane	*init_plane(char **tokens, t_scene *scene)
 
 	pl = malloc(sizeof(t_plane));
 	if (!pl)
-		error(scene, "Malloc failed");
-	pl->cors = parse_vec(tokens[1], scene);
-	pl->norm = parse_vec(tokens[2], scene);
-	check_plane_norm(pl->norm, scene);
-	pl->norm = normalize(pl->norm);
-	pl->rgb = parse_color(tokens[3], scene);
+	{
+		scene->error_msg = "Malloc failed";
+		return (NULL);
+	}
+	if (!parse_plane_vectors(tokens, pl, scene)
+		|| !parse_plane_color(tokens[3], pl, scene))
+	{
+		free(pl);
+		return (NULL);
+	}
 	return (pl);
 }
 
-void	parse_plane(char **tokens, t_scene *scene)
+int	parse_plane(char **tokens, t_scene *scene)
 {
 	t_plane	*pl;
 
 	if (count_tokens(tokens) != 4)
-		error(scene, "Invalid plane format");
+	{
+		scene->error_msg = "Invalid plane format";
+		return (0);
+	}
 	pl = init_plane(tokens, scene);
+	if (!pl)
+		return (0);
 	add_obj(scene, PLANE, pl);
+	return (1);
 }

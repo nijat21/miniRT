@@ -6,7 +6,7 @@
 /*   By: abraz-ab <abraz-ab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 18:25:30 by abraz-ab          #+#    #+#             */
-/*   Updated: 2026/09/20 18:25:31 by abraz-ab         ###   ########.fr       */
+/*   Updated: 2026/09/21 00:07:02 by abraz-ab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,79 @@
 /*
 C 0,0,0 0,0,0 120
 */
-void	parse_camera(char **tokens, t_scene *scene)
+
+static int	check_camera_format(char **tokens, t_scene *scene)
+{
+	if (scene->has_cam)
+	{
+		scene->error_msg = "Camera already defined";
+		return (0);
+	}
+	if (count_tokens(tokens) != 4)
+	{
+		scene->error_msg = "Invalid camera format";
+		return (0);
+	}
+	return (1);
+}
+
+static int	check_camera_norm(t_vec norm, t_scene *scene)
+{
+	if (norm.x < -1.0 || norm.x > 1.0
+		|| norm.y < -1.0 || norm.y > 1.0
+		|| norm.z < -1.0 || norm.z > 1.0)
+	{
+		scene->error_msg = "Camera orientation must be in range [-1,1]";
+		return (0);
+	}
+	if (vec_len(norm) == 0.0)
+	{
+		scene->error_msg = "Camera orientation cannot be zero";
+		return (0);
+	}
+	return (1);
+}
+
+static int	parse_camera_fov(char *token, t_cam *cam, t_scene *scene)
+{
+	int	fov;
+
+	if (!parse_int(token, &fov))
+	{
+		scene->error_msg = "Invalid FOV";
+		return (0);
+	}
+	if (fov < 0 || fov > 180)
+	{
+		scene->error_msg = "FOV must be in range [0,180]";
+		return (0);
+	}
+	cam->hfov = fov;
+	return (1);
+}
+
+int	parse_camera(char **tokens, t_scene *scene)
 {
 	t_cam	cam;
 
-	if (scene->has_cam)
-		error(scene, "Camera already defined");
-	if (count_tokens(tokens) != 4)
-		error(scene, "Invalid camera format");
-	cam.cors = parse_vec(tokens[1], scene);
-	cam.norm = parse_vec(tokens[2], scene);
-	if (cam.norm.x < -1.0 || cam.norm.x > 1.0
-		|| cam.norm.y < -1.0 || cam.norm.y > 1.0
-		|| cam.norm.z < -1.0 || cam.norm.z > 1.0)
-		error(scene, "Camera orientation must be in range [-1,1]");
-	if (vec_len(cam.norm) == 0.0)
-		error(scene, "Camera orientation cannot be zero");
+	if (!check_camera_format(tokens, scene))
+		return (0);
+	if (!parse_vec(tokens[1], &cam.cors, scene))
+	{
+		scene->error_msg = "Invalid position";
+		return (0);
+	}
+	if (!parse_vec(tokens[2], &cam.norm, scene))
+	{
+		scene->error_msg = "Invalid orientation";
+		return (0);
+	}
+	if (!check_camera_norm(cam.norm, scene))
+		return (0);
 	cam.norm = normalize(cam.norm);
-	cam.hfov = parse_int(tokens[3], scene);
-	if (cam.hfov < 0 || cam.hfov > 180)
-		error(scene, "Invalid FOV range");
+	if (!parse_camera_fov(tokens[3], &cam, scene))
+		return (0);
 	scene->cam = cam;
 	scene->has_cam = true;
+	return (1);
 }

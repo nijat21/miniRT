@@ -6,67 +6,47 @@
 /*   By: abraz-ab <abraz-ab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 18:25:50 by abraz-ab          #+#    #+#             */
-/*   Updated: 2026/09/20 18:25:51 by abraz-ab         ###   ########.fr       */
+/*   Updated: 2026/09/20 23:56:49 by abraz-ab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minirt.h>
 #include <parser.h>
 
-t_vec	parse_vec(char *str, t_scene *scene)
+static int	parse_vec_values(char **split, t_vec *v)
+{
+	if (!parse_double(split[0], &v->x)
+		|| !parse_double(split[1], &v->y)
+		|| !parse_double(split[2], &v->z))
+		return (0);
+	return (1);
+}
+
+int	parse_vec(char *str, t_vec *result, t_scene *scene)
 {
 	char	**split;
 	t_vec	v;
 
 	if (!str)
-		error(scene, "Invalid vector");
+	{
+		scene->error_msg = "Invalid vector";
+		return (0);
+	}
 	split = ft_split(str, ',');
 	if (!split)
-		error(scene, "Malloc failed");
-	if (count_tokens(split) != 3)
+	{
+		scene->error_msg = "Malloc failed";
+		return (0);
+	}
+	if (count_tokens(split) != 3 || !parse_vec_values(split, &v))
 	{
 		free_split(split, count_tokens(split));
-		error(scene, "Invalid vector");
+		scene->error_msg = "Invalid vector";
+		return (0);
 	}
-	v.x = parse_double(split[0], scene);
-	v.y = parse_double(split[1], scene);
-	v.z = parse_double(split[2], scene);
 	free_split(split, count_tokens(split));
-	return (v);
-}
-
-static void	check_color_range(int r, int g, int b, t_scene *scene)
-{
-	if (r < 0 || r > 255 || g < 0 || g > 255
-		|| b < 0 || b > 255)
-		error(scene, "Color out of range");
-}
-
-t_vec	parse_color(char *str, t_scene *scene)
-{
-	char	**split;
-	t_vec	c;
-	int		r;
-	int		g;
-	int		b;
-
-	split = ft_split(str, ',');
-	if (!split)
-		error(scene, "Malloc failed");
-	if (count_tokens(split) != 3)
-	{
-		free_split(split, count_tokens(split));
-		error(scene, "Invalid color");
-	}
-	r = parse_int(split[0], scene);
-	g = parse_int(split[1], scene);
-	b = parse_int(split[2], scene);
-	check_color_range(r, g, b, scene);
-	c.x = (double)r / 255.0;
-	c.y = (double)g / 255.0;
-	c.z = (double)b / 255.0;
-	free_split(split, count_tokens(split));
-	return (c);
+	*result = v;
+	return (1);
 }
 
 void	add_obj(t_scene *scene, t_obj_type type, void *data)

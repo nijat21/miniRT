@@ -6,7 +6,7 @@
 /*   By: abraz-ab <abraz-ab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 18:26:42 by abraz-ab          #+#    #+#             */
-/*   Updated: 2026/09/20 18:26:43 by abraz-ab         ###   ########.fr       */
+/*   Updated: 2026/09/21 00:27:35 by abraz-ab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,9 +109,12 @@ typedef struct s_scene
 	t_light		light;
 	t_list		*objs;
 
-	bool		has_amb;
-	bool		has_cam;
-	bool		has_light;
-}				t_scene;
+    bool has_res;
+    bool has_amb;
+    bool has_cam;
+    bool has_light;
+
+    char *error_msg;
+} t_scene;
 
 #endif // MINIRT_H
