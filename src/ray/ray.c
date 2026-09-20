@@ -6,7 +6,7 @@
 /*   By: nismayil <nismayil@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 20:54:09 by nismayil          #+#    #+#             */
-/*   Updated: 2026/09/20 22:06:05 by nismayil         ###   ########.fr       */
+/*   Updated: 2026/09/20 23:59:39 by nismayil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static bool	single_ray(t_hit *hit, t_list *objs, t_ray ray)
 		else if (obj->type == CYLINDER)
 			res = hit_cyl(ray, (t_cyl *)obj->data, &hit->part_hit, &cur_t);
 		else
-			return (return_err(ERR_WRONG_OBJ));
+			return (print_err(ERR_WRONG_OBJ), false);
 		assign_hit(hit, obj, res, cur_t);
 		tmp = tmp->next;
 	}
@@ -79,6 +79,7 @@ bool	shoot_ray(t_disp *disp, t_scene *scene, t_ray ray, double ij[])
 	t_hit	hit;
 	bool	err;
 
+	err = false;
 	if (!single_ray(&hit, scene->objs, ray))
 		return (false);
 	color_px(disp, ij[1], ij[0], comp_hit_color(scene, &hit, ray, &err));

@@ -6,7 +6,7 @@
 /*   By: nismayil <nismayil@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 20:53:11 by nismayil          #+#    #+#             */
-/*   Updated: 2026/09/20 22:40:06 by nismayil         ###   ########.fr       */
+/*   Updated: 2026/09/20 23:56:03 by nismayil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,4 @@ void	print_err(const t_error err)
 {
 	ft_putstr_fd(err_msg(err), 2);
 	ft_putstr_fd("\n", 2);
-}
-
-bool	return_err(const t_error err)
-{
-	ft_putstr_fd(err_msg(err), 2);
-	ft_putstr_fd("\n", 2);
-	return (false);
 }

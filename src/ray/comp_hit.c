@@ -6,7 +6,7 @@
 /*   By: nismayil <nismayil@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 20:53:53 by nismayil          #+#    #+#             */
-/*   Updated: 2026/09/20 20:55:33 by nismayil         ###   ########.fr       */
+/*   Updated: 2026/09/20 23:59:09 by nismayil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ bool	surf_norm(t_hit *hit, t_ray ray)
 		hit->rgb = ((t_plane *)data)->rgb;
 	}
 	else
-		return (return_err(ERR_WRONG_OBJ));
+		return (print_err(ERR_WRONG_OBJ), false);
 	return (true);
 }
 
@@ -80,6 +80,7 @@ t_rgb	comp_hit_color(t_scene *scene, t_hit *hit, t_ray ray, bool *err)
 		if (!surf_norm(hit, ray))
 		{
 			*err = true;
+			print_err_msg("Failed to compute hit color");
 			return ((t_rgb){0, 0, 0});
 		}
 		res = comp_color((const t_scene *)scene, (const t_hit *)hit);

@@ -94,7 +94,7 @@ bool	hit_cyl(t_ray ray, t_cyl *cyl, t_cyl_part *part_hit, double *t)
 	p_hits[1] = hit_caps(cyl, ray, &cap_t, part_hit);
 	if (p_hits[0] && p_hits[1])
 		select_cyl_t((double []){side_t, cap_t},
-			(t_cyl_part[]){SIDE, *part_hit},
+			(t_cyl_part []){SIDE, *part_hit},
 			t, part_hit);
 	else if (p_hits[1])
 		*t = cap_t;

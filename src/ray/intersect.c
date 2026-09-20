@@ -6,7 +6,7 @@
 /*   By: nismayil <nismayil@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 20:54:03 by nismayil          #+#    #+#             */
-/*   Updated: 2026/09/20 22:37:12 by nismayil         ###   ########.fr       */
+/*   Updated: 2026/09/21 00:01:02 by nismayil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ bool	hit_sphere(t_ray ray, t_sph sph, double *t)
 	bool	err;
 	double	co_proj;
 
+	err = false;
 	mid_to_point = calc_mid_to_point(ray, sph, &co_proj, &err);
 	if (err)
 		return (false);
