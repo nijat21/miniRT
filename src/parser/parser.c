@@ -1,37 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abraz-ab <abraz-ab@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/20 18:26:09 by abraz-ab          #+#    #+#             */
+/*   Updated: 2026/09/20 18:26:10 by abraz-ab         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minirt.h>
 #include <parser.h>
 #include <utils.h>
-// reads file
-
-void	parse_line(char *line, t_scene *scene)
-{
-	char	**tokens;
-
-	tokens = ft_split_spaces(line);
-	if (!tokens || !tokens[0])
-	{
-		if (tokens)
-			free_split(tokens, count_tokens(tokens));
-		return ;
-	}
-	else if (!ft_strncmp(tokens[0], "A", 2))
-		parse_ambient(tokens, scene);
-	else if (!ft_strncmp(tokens[0], "C", 2))
-		parse_camera(tokens, scene);
-	else if (!ft_strncmp(tokens[0], "L", 2))
-		parse_light(tokens, scene);
-	else if (!ft_strncmp(tokens[0], "sp", 3))
-		parse_sphere(tokens, scene);
-	else if (!ft_strncmp(tokens[0], "pl", 3))
-		parse_plane(tokens, scene);
-	else if (!ft_strncmp(tokens[0], "cy", 3))
-		parse_cylinder(tokens, scene);
-	else
-	{
-		free_split(tokens, count_tokens(tokens));
-		error(scene, "Unknown identifier");
-	}
-}
 
 //this one doesnt need norminette its just for parsing debugging
 void	print_scene(t_scene *scene)
@@ -124,37 +105,41 @@ void	print_scene(t_scene *scene)
 	printf("\n==================================\n\n");
 }
 
-void	validate_scene(t_scene *scene)
+static void	parse_identifier(char **tokens, t_scene *scene)
 {
-	if (!scene->has_amb)
-		error(scene, "Missing ambient");
-	if (!scene->has_cam)
-		error(scene, "Missing camera");
-	if (!scene->has_light)
-		error(scene, "Missing light");
+	if (!ft_strncmp(tokens[0], "A", 2))
+		parse_ambient(tokens, scene);
+	else if (!ft_strncmp(tokens[0], "C", 2))
+		parse_camera(tokens, scene);
+	else if (!ft_strncmp(tokens[0], "L", 2))
+		parse_light(tokens, scene);
+	else if (!ft_strncmp(tokens[0], "sp", 3))
+		parse_sphere(tokens, scene);
+	else if (!ft_strncmp(tokens[0], "pl", 3))
+		parse_plane(tokens, scene);
+	else if (!ft_strncmp(tokens[0], "cy", 3))
+		parse_cylinder(tokens, scene);
+	else
+	{
+		free_split(tokens, count_tokens(tokens));
+		error(scene, "Unknown identifier");
+	}
 }
 
-void	free_obj(void *content)
+void	parse_line(char *line, t_scene *scene)
 {
-	t_obj	*obj;
+	char	**tokens;
 
-	obj = (t_obj *)content;
-	if (!obj)
+	tokens = ft_split_spaces(line);
+	if (!tokens)
+		error(scene, "Malloc failed");
+	if (!tokens[0])
+	{
+		free_split(tokens, count_tokens(tokens));
 		return ;
-	free(obj->data);
-	free(obj);
-}
-
-void	clean_scene(t_scene *scene)
-{
-	if (!scene)
-		return ;
-	ft_lstclear(&scene->objs, free_obj);
-}
-
-void	init_scene(t_scene *scene)
-{
-	ft_bzero(scene, sizeof(t_scene));
+	}
+	parse_identifier(tokens, scene);
+	free_split(tokens, count_tokens(tokens));
 }
 
 int	parse_scene(char *filename, t_scene *scene)
@@ -166,10 +151,12 @@ int	parse_scene(char *filename, t_scene *scene)
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		error(scene, "Failed to open file");
-	while ((line = get_next_line(fd)))
+	line = get_next_line(fd);
+	while (line)
 	{
 		parse_line(line, scene);
 		free(line);
+		line = get_next_line(fd);
 	}
 	close(fd);
 	validate_scene(scene);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_cylinder.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abraz-ab <abraz-ab@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/20 18:25:34 by abraz-ab          #+#    #+#             */
+/*   Updated: 2026/09/20 18:25:35 by abraz-ab         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minirt.h>
 #include <parser.h>
 #include <libft.h>
@@ -13,6 +25,16 @@ tokens[5] color
 
 */
 
+static void	check_cylinder_norm(t_vec norm, t_scene *scene)
+{
+	if (norm.x < -1.0 || norm.x > 1.0
+		|| norm.y < -1.0 || norm.y > 1.0
+		|| norm.z < -1.0 || norm.z > 1.0)
+		error(scene, "Cylinder orientation must be in range [-1,1]");
+	if (vec_len(norm) == 0.0)
+		error(scene, "Cylinder norm cannot be zero");
+}
+
 static t_cyl	*init_cyl(char **tokens, t_scene *scene)
 {
 	t_cyl	*cy;
@@ -22,11 +44,7 @@ static t_cyl	*init_cyl(char **tokens, t_scene *scene)
 		error(scene, "Malloc failed");
 	cy->cors = parse_vec(tokens[1], scene);
 	cy->norm = parse_vec(tokens[2], scene);
-	if (vec_len(cy->norm) == 0)
-	{
-		free(cy);
-		error(scene, "Cylinder norm cannot be zero");
-	}
+	check_cylinder_norm(cy->norm, scene);
 	cy->norm = normalize(cy->norm);
 	cy->rad = parse_double(tokens[3], scene) / 2.0;
 	cy->h = parse_double(tokens[4], scene);

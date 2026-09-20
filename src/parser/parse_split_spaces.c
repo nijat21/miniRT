@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_split_spaces.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abraz-ab <abraz-ab@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/20 18:25:46 by abraz-ab          #+#    #+#             */
+/*   Updated: 2026/09/20 18:30:43 by abraz-ab         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minirt.h>
 #include <parser.h>
 
@@ -42,6 +54,16 @@ static char	*word_dup(char *str, int start, int end)
 	return (word);
 }
 
+static char	**split_alloc(char *str)
+{
+	char	**res;
+
+	res = malloc(sizeof(char *) * (count_words(str) + 1));
+	if (!res)
+		return (NULL);
+	return (res);
+}
+
 char	**ft_split_spaces(char *str)
 {
 	char	**res;
@@ -51,9 +73,7 @@ char	**ft_split_spaces(char *str)
 
 	i = 0;
 	j = 0;
-	res = malloc(sizeof(char *) * (count_words(str) + 1));
-	if (!res)
-		return (NULL);
+	res = split_alloc(str);
 	while (str[i])
 	{
 		while (str[i] && is_space(str[i]))
@@ -63,7 +83,10 @@ char	**ft_split_spaces(char *str)
 		start = i;
 		while (str[i] && !is_space(str[i]))
 			i++;
-		res[j++] = word_dup(str, start, i);
+		res[j] = word_dup(str, start, i);
+		if (!res[j])
+			return (free_split(res, j));
+		j++;
 	}
 	res[j] = NULL;
 	return (res);

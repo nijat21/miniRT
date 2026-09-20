@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_utils3.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abraz-ab <abraz-ab@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/20 18:25:57 by abraz-ab          #+#    #+#             */
+/*   Updated: 2026/09/20 18:25:58 by abraz-ab         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minirt.h>
 #include <parser.h>
 
@@ -38,7 +50,7 @@ static int	parse_atof_integer_part(const char *str, int *i, double *val)
 
 static int	parse_atof_decimal_part(const char *str, int *i, double *val)
 {
-	int	digits;
+	int		digits;
 	double	decimal;
 
 	digits = 0;

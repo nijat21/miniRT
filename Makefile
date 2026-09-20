@@ -31,6 +31,7 @@ SRCS:=	minirt.c \
 				src/parser/parse_utils2.c \
 				src/parser/parse_utils3.c \
 				src/parser/parse_utils4.c \
+				src/parser/parse_utils5.c \
 				src/parser/parser.c \
 		src/window/win.c \
 		src/window/drawer.c \
@@ -55,7 +56,7 @@ VALGRIND = valgrind \
 			--track-fds=yes \
 			--show-leak-kinds=all \
 			--track-origins=yes \
-			--suppressions=readline.supp
+			#--suppressions=readline.supp
 
 LIBFT_DIR=src/Libft
 LIBFT_MAKE=make -C $(LIBFT_DIR)
