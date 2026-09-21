@@ -109,12 +109,12 @@ typedef struct s_scene
 	t_light		light;
 	t_list		*objs;
 
-    bool has_res;
-    bool has_amb;
-    bool has_cam;
-    bool has_light;
+	bool		has_res;
+	bool		has_amb;
+	bool		has_cam;
+	bool		has_light;
 
-    char *error_msg;
-} t_scene;
+	char		*error_msg;
+}				t_scene;
 
 #endif // MINIRT_H

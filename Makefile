@@ -14,7 +14,9 @@
 
 NAME=minirt
 CC=cc
-CFLAGS=-Wall -Wextra -Werror -g #-fsanitize=address #-lm
+CFLAGS=-Wall -Wextra -Werror -g \
+#          -fsanitize=address,undefined \
+#          -fno-omit-frame-pointer
 RM=rm -rf
 OBJS_DIR=build
 
@@ -61,7 +63,7 @@ VALGRIND = valgrind \
 			--track-origins=yes \
 
 LIBFT_DIR=src/Libft
-LIBFT_MAKE=make -C $(LIBFT_DIR)
+LIBFT_MAKE=make -C $(LIBFT_DIR) CFLAGS="$(CFLAGS)"
 LIBFT_LIB=$(LIBFT_DIR)/libft.a
 
 # For macOS - current setup
@@ -107,7 +109,8 @@ $(OBJS_DIR)/%.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 val: $(NAME)
-	$(VALGRIND) ./$(NAME)
+	$(VALGRIND) ./$(NAME) maps/valid/t02_all_obj.rt
+
 clean:
 	$(RM) $(OBJS_DIR)
 	$(LIBFT_MAKE) clean

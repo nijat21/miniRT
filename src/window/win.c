@@ -6,7 +6,7 @@
 /*   By: nismayil <nismayil@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 20:54:33 by nismayil          #+#    #+#             */
-/*   Updated: 2026/09/20 20:55:06 by nismayil         ###   ########.fr       */
+/*   Updated: 2026/09/21 00:54:10 by nismayil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,19 @@
 #include <libft.h>
 #include <window.h>
 
-t_disp	*disp_init(const int width, const int height)
+t_disp	*disp_init(const t_scene *scene, const int width, const int height)
 {
 	t_disp	*disp;
 
-	if (width <= 0 || height <= 0)
-	{
-		print_err(ERR_INVALID_ARG);
-		return (NULL);
-	}
+	if (width <= 0 || height <= 0 || !scene)
+		return (print_err(ERR_INVALID_ARG), NULL);
 	disp = malloc(sizeof(t_disp));
 	if (!disp)
 	{
 		print_err(ERR_MALLOC);
 		return (NULL);
 	}
+	disp->scene = (t_scene *)scene;
 	disp->w = width;
 	disp->h = height;
 	disp->win = NULL;
@@ -107,11 +105,11 @@ t_img	*img_init(t_disp *disp)
 	return (img_data(disp, img));
 }
 
-t_disp	*setup_disp(const int width, const int height)
+t_disp	*setup_disp(const t_scene *scene, const int width, const int height)
 {
 	t_disp	*disp;
 
-	disp = disp_init(width, height);
+	disp = disp_init(scene, width, height);
 	if (!disp)
 		return (NULL);
 	disp->win = win_init(disp);

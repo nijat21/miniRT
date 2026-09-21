@@ -6,7 +6,7 @@
 /*   By: nismayil <nismayil@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 18:27:03 by abraz-ab          #+#    #+#             */
-/*   Updated: 2026/09/20 22:56:22 by nismayil         ###   ########.fr       */
+/*   Updated: 2026/09/21 00:52:27 by nismayil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,12 @@ typedef struct s_disp
 	t_img	*img;
 	int		w;
 	int		h;
+	t_scene	*scene;
 }			t_disp;
 
 //---src/window/win.c-----------------------------------------------------
-t_disp		*setup_disp(const int width, const int height);
+t_disp		*setup_disp(const t_scene *scene, const int width,
+				const int height);
 
 //---src/window/hooks.c-----------------------------------------------------
 void		cleanup(t_disp *disp);
