@@ -1,4 +1,4 @@
-_This project has been created as part of the 42 curriculum by abras-ab and nismayil_ 
+_This project has been created as part of the 42 curriculum by abraz-ab and nismayil_ 
 
 # miniRT
 

@@ -6,7 +6,7 @@
 /*   By: nismayil <nismayil@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 20:54:20 by nismayil          #+#    #+#             */
-/*   Updated: 2026/09/20 21:15:53 by nismayil         ###   ########.fr       */
+/*   Updated: 2026/09/21 16:24:03 by nismayil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_vec	create_vec(double x, double y, double z)
 
 double	vec_len(t_vec a)
 {
-	return (sqrtf(a.x * a.x + a.y * a.y + a.z * a.z));
+	return (sqrt(a.x * a.x + a.y * a.y + a.z * a.z));
 }
 
 t_vec	normalize(t_vec vec)

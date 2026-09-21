@@ -6,12 +6,13 @@
 /*   By: nismayil <nismayil@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 20:53:50 by nismayil          #+#    #+#             */
-/*   Updated: 2026/09/20 22:13:25 by nismayil         ###   ########.fr       */
+/*   Updated: 2026/09/21 16:33:00 by nismayil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <error_handler.h>
 #include <float.h>
+#include <math.h>
 #include <minirt.h>
 #include <ray.h>
 #include <vec.h>
@@ -23,13 +24,13 @@ bool	interrupted(t_ray ray, t_obj *obj, double lr_len)
 
 	if (obj->type == PLANE)
 		return (hit_plane(ray, *(t_plane *)obj->data, &cur_t)
-			&& (cur_t > EPSILON) && (cur_t < lr_len));
+			&& before_light(cur_t, lr_len));
 	else if (obj->type == SPHERE)
 		return (hit_sphere(ray, *(t_sph *)obj->data, &cur_t)
-			&& (cur_t > EPSILON) && (cur_t < lr_len));
+			&& before_light(cur_t, lr_len));
 	else if (obj->type == CYLINDER)
 		return (hit_cyl(ray, (t_cyl *)obj->data, &part_hit, &cur_t)
-			&& (cur_t > EPSILON) && (cur_t < lr_len));
+			&& before_light(cur_t, lr_len));
 	return (false);
 }
 

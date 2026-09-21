@@ -6,7 +6,7 @@
 /*   By: nismayil <nismayil@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 18:26:47 by abraz-ab          #+#    #+#             */
-/*   Updated: 2026/09/20 21:51:24 by nismayil         ###   ########.fr       */
+/*   Updated: 2026/09/21 16:32:54 by nismayil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,6 @@ t_rgb			comp_color(const t_scene *scene, const t_hit *hit);
 t_cam			cam_init(t_cam cam);
 t_vport			vport_init(t_disp *disp, double hfov);
 t_vec			ray_at(t_ray ray, double t);
+bool			before_light(double cur_t, double light_len);
 
 #endif // RAY_H

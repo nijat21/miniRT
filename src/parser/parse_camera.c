@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_camera.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abraz-ab <abraz-ab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nismayil <nismayil@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 18:25:30 by abraz-ab          #+#    #+#             */
-/*   Updated: 2026/09/21 00:07:02 by abraz-ab         ###   ########.fr       */
+/*   Updated: 2026/09/21 16:31:06 by nismayil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ static int	check_camera_format(char **tokens, t_scene *scene)
 
 static int	check_camera_norm(t_vec norm, t_scene *scene)
 {
-	if (norm.x < -1.0 || norm.x > 1.0
-		|| norm.y < -1.0 || norm.y > 1.0
+	if (norm.x < -1.0 || norm.x > 1.0 || norm.y < -1.0 || norm.y > 1.0
 		|| norm.z < -1.0 || norm.z > 1.0)
 	{
 		scene->error_msg = "Camera orientation must be in range [-1,1]";

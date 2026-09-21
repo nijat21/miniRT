@@ -12,7 +12,7 @@
 
 .PHONY: all clean fclean re val cl fcl r
 
-NAME=minirt
+NAME=miniRT
 CC=cc
 CFLAGS=-Wall -Wextra -Werror -g \
 #          -fsanitize=address,undefined \
