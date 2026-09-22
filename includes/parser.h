@@ -6,7 +6,7 @@
 /*   By: abraz-ab <abraz-ab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 18:26:44 by abraz-ab          #+#    #+#             */
-/*   Updated: 2026/09/21 00:27:41 by abraz-ab         ###   ########.fr       */
+/*   Updated: 2026/09/22 12:21:38 by abraz-ab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int		is_space(char c);
 int		count_words(char *str);
 char	*word_dup(char *str, int start, int end);
 char	**ft_split_spaces(char *str);
+int		valid_vec_format(char *str);
 int		parse_vec(char *str, t_vec *result, t_scene *scene);
 int		parse_color(char *str, t_vec *result, t_scene *scene);
 int		parse_double(char *str, double *result);

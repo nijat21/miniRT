@@ -6,7 +6,7 @@
 /*   By: abraz-ab <abraz-ab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/21 00:03:47 by abraz-ab          #+#    #+#             */
-/*   Updated: 2026/09/21 00:03:48 by abraz-ab         ###   ########.fr       */
+/*   Updated: 2026/09/22 13:33:33 by abraz-ab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 
 int	check_cylinder_norm(t_vec norm, t_scene *scene)
 {
+	double	len;
+
 	if (norm.x < -1.0 || norm.x > 1.0
 		|| norm.y < -1.0 || norm.y > 1.0
 		|| norm.z < -1.0 || norm.z > 1.0)
@@ -23,9 +25,15 @@ int	check_cylinder_norm(t_vec norm, t_scene *scene)
 		scene->error_msg = "Cylinder orientation must be in range [-1.0,1.0]";
 		return (0);
 	}
-	if (vec_len(norm) == 0.0)
+	len = vec_len(norm);
+	if (len == 0.0)
 	{
 		scene->error_msg = "Cylinder orientation cannot be zero";
+		return (0);
+	}
+	if (len > 1)
+	{
+		scene->error_msg = "Cylinder orientation must be normalized";
 		return (0);
 	}
 	return (1);
@@ -45,7 +53,6 @@ int	parse_cylinder_vectors(char **tokens, t_cyl *cy, t_scene *scene)
 	}
 	if (!check_cylinder_norm(cy->norm, scene))
 		return (0);
-	cy->norm = normalize(cy->norm);
 	return (1);
 }
 

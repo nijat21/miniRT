@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_camera.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nismayil <nismayil@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: abraz-ab <abraz-ab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 18:25:30 by abraz-ab          #+#    #+#             */
-/*   Updated: 2026/09/21 16:31:06 by nismayil         ###   ########.fr       */
+/*   Updated: 2026/09/22 13:33:21 by abraz-ab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,23 @@ static int	check_camera_format(char **tokens, t_scene *scene)
 
 static int	check_camera_norm(t_vec norm, t_scene *scene)
 {
+	double	len;
+
 	if (norm.x < -1.0 || norm.x > 1.0 || norm.y < -1.0 || norm.y > 1.0
 		|| norm.z < -1.0 || norm.z > 1.0)
 	{
 		scene->error_msg = "Camera orientation must be in range [-1,1]";
 		return (0);
 	}
-	if (vec_len(norm) == 0.0)
+	len = vec_len(norm);
+	if (len == 0.0)
 	{
 		scene->error_msg = "Camera orientation cannot be zero";
+		return (0);
+	}
+	if (len > 1)
+	{
+		scene->error_msg = "Camera orientation must be normalized";
 		return (0);
 	}
 	return (1);
@@ -84,7 +92,6 @@ int	parse_camera(char **tokens, t_scene *scene)
 	}
 	if (!check_camera_norm(cam.norm, scene))
 		return (0);
-	cam.norm = normalize(cam.norm);
 	if (!parse_camera_fov(tokens[3], &cam, scene))
 		return (0);
 	scene->cam = cam;

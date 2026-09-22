@@ -6,7 +6,7 @@
 /*   By: abraz-ab <abraz-ab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 23:57:06 by abraz-ab          #+#    #+#             */
-/*   Updated: 2026/09/20 23:57:07 by abraz-ab         ###   ########.fr       */
+/*   Updated: 2026/09/22 12:33:21 by abraz-ab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,11 @@ int	parse_color(char *str, t_vec *result, t_scene *scene)
 	char	**split;
 
 	if (!str)
+	{
+		scene->error_msg = "Invalid color";
+		return (0);
+	}
+	if (!valid_vec_format(str))
 	{
 		scene->error_msg = "Invalid color";
 		return (0);

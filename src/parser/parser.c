@@ -6,7 +6,7 @@
 /*   By: abraz-ab <abraz-ab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 18:26:09 by abraz-ab          #+#    #+#             */
-/*   Updated: 2026/09/21 00:41:48 by abraz-ab         ###   ########.fr       */
+/*   Updated: 2026/09/22 12:36:51 by abraz-ab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,27 @@ int	parse_line(char *line, t_scene *scene)
 	return (result);
 }
 
+static int	check_filename(char *filename, t_scene *scene)
+{
+	int	len;
+
+	len = ft_strlen(filename);
+	if (len < 4 || ft_strncmp(filename + len - 3, ".rt", 4) != 0)
+	{
+		scene->error_msg = "Invalid file extension";
+		return (0);
+	}
+	return (1);
+}
+
 int	parse_scene(char *filename, t_scene *scene)
 {
 	int		fd;
 	char	*line;
 
 	init_scene(scene);
+	if (!check_filename(filename, scene))
+		error(scene, scene->error_msg);
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		error(scene, "Failed to open file");

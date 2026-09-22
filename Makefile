@@ -23,10 +23,12 @@ OBJS_DIR=build
 INCLUDES:=-I. -I./includes -I./src/Libft 
 SRCS:=	minirt.c \
 				src/parser/parse_ambient.c \
+				src/parser/parse_atof.c \
 				src/parser/parse_camera.c \
 				src/parser/parse_color.c \
 				src/parser/parse_cylinder_utils.c \
 				src/parser/parse_cylinder.c \
+				src/parser/parse_int.c \
 				src/parser/parse_light.c \
 				src/parser/parse_plane.c \
 				src/parser/parse_sphere.c \
@@ -34,9 +36,7 @@ SRCS:=	minirt.c \
 				src/parser/parse_split_spaces2.c \
 				src/parser/parse_utils.c \
 				src/parser/parse_utils2.c \
-				src/parser/parse_utils3.c \
-				src/parser/parse_utils4.c \
-				src/parser/parse_utils5.c \
+				src/parser/parse_vec.c \
 				src/parser/parser.c \
 		src/window/win.c \
 		src/window/drawer.c \

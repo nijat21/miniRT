@@ -1,53 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_utils2.c                                     :+:      :+:    :+:   */
+/*   parse_utils5.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abraz-ab <abraz-ab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/20 18:25:53 by abraz-ab          #+#    #+#             */
-/*   Updated: 2026/09/20 21:21:57 by abraz-ab         ###   ########.fr       */
+/*   Created: 2026/09/20 18:26:05 by abraz-ab          #+#    #+#             */
+/*   Updated: 2026/09/20 18:29:46 by abraz-ab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minirt.h>
 #include <parser.h>
 
-void	*free_split(char **strs, int count)
+void	validate_scene(t_scene *scene)
 {
-	int	i;
-
-	i = 0;
-	while (i < count)
-	{
-		free(strs[i]);
-		i++;
-	}
-	free(strs);
-	return (NULL);
+	if (!scene->has_amb)
+		error(scene, "Missing ambient");
+	if (!scene->has_cam)
+		error(scene, "Missing camera");
+	if (!scene->has_light)
+		error(scene, "Missing light");
 }
 
-void	error(t_scene *scene, char *msg)
+void	free_obj(void *content)
 {
-	if (scene)
-		clean_scene(scene);
-	printf("Error\n%s\n", msg);
-	exit(1);
+	t_obj	*obj;
+
+	obj = (t_obj *)content;
+	if (!obj)
+		return ;
+	free(obj->data);
+	free(obj);
 }
 
-int	count_tokens(char **tokens)
+void	clean_scene(t_scene *scene)
 {
-	int	i;
-
-	i = 0;
-	while (tokens[i])
-		i++;
-	return (i);
+	if (!scene)
+		return ;
+	ft_lstclear(&scene->objs, free_obj);
 }
 
-int	parse_double(char *str, double *result)
+void	init_scene(t_scene *scene)
 {
-	if (!str || ft_atof(str, result) != 0)
-		return (0);
-	return (1);
+	ft_bzero(scene, sizeof(t_scene));
 }

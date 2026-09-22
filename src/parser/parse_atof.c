@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_utils3.c                                     :+:      :+:    :+:   */
+/*   parse_atof.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abraz-ab <abraz-ab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 18:25:57 by abraz-ab          #+#    #+#             */
-/*   Updated: 2026/09/20 18:25:58 by abraz-ab         ###   ########.fr       */
+/*   Updated: 2026/09/22 13:43:08 by abraz-ab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,19 @@ static int	parse_atof_integer_part(const char *str, int *i, double *val)
 	return (digits);
 }
 
-static int	parse_atof_decimal_part(const char *str, int *i, double *val)
+static int	parse_atof_decimal_part(const char *str, int *i, double *val,\
+	int integer_digits)
 {
 	int		digits;
 	double	decimal;
 
-	digits = 0;
-	decimal = 0.1;
 	if (str[*i] != '.')
 		return (0);
+	if (integer_digits == 0 || !ft_isdigit(str[*i + 1]))
+		return (-1);
 	(*i)++;
+	digits = 0;
+	decimal = 0.1;
 	while (ft_isdigit(str[*i]))
 	{
 		*val += (str[*i] - '0') * decimal;
@@ -65,8 +68,6 @@ static int	parse_atof_decimal_part(const char *str, int *i, double *val)
 		(*i)++;
 		digits++;
 	}
-	if (str[*i] == '.')
-		return (-1);
 	return (digits);
 }
 
@@ -84,7 +85,7 @@ int	ft_atof(const char *str, double *result)
 		i++;
 	sign = parse_atof_sign(str, &i);
 	digits = parse_atof_integer_part(str, &i, &val);
-	decimal_digits = parse_atof_decimal_part(str, &i, &val);
+	decimal_digits = parse_atof_decimal_part(str, &i, &val, digits);
 	if (decimal_digits < 0 || (!digits && !decimal_digits) || str[i])
 		return (1);
 	*result = val * sign;

@@ -6,7 +6,7 @@
 /*   By: abraz-ab <abraz-ab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 18:25:40 by abraz-ab          #+#    #+#             */
-/*   Updated: 2026/09/20 23:21:49 by abraz-ab         ###   ########.fr       */
+/*   Updated: 2026/09/22 13:33:40 by abraz-ab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ tokens[3] color
 
 static int	check_plane_norm(t_vec norm, t_scene *scene)
 {
+	double	len;
+
 	if (norm.x < -1.0 || norm.x > 1.0
 		|| norm.y < -1.0 || norm.y > 1.0
 		|| norm.z < -1.0 || norm.z > 1.0)
@@ -32,9 +34,15 @@ static int	check_plane_norm(t_vec norm, t_scene *scene)
 		scene->error_msg = "Plane orientation must be in range [-1.0,1.0]";
 		return (0);
 	}
-	if (vec_len(norm) == 0.0)
+	len = vec_len(norm);
+	if (len == 0.0)
 	{
 		scene->error_msg = "Plane orientation cannot be zero";
+		return (0);
+	}
+	if (len > 1)
+	{
+		scene->error_msg = "Plane orientation must be normalized";
 		return (0);
 	}
 	return (1);
@@ -54,7 +62,6 @@ static int	parse_plane_vectors(char **tokens, t_plane *pl, t_scene *scene)
 	}
 	if (!check_plane_norm(pl->norm, scene))
 		return (0);
-	pl->norm = normalize(pl->norm);
 	return (1);
 }
 
