@@ -3,23 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cylinder_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abraz-ab <abraz-ab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nismayil <nismayil@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/21 00:03:47 by abraz-ab          #+#    #+#             */
-/*   Updated: 2026/09/22 13:33:33 by abraz-ab         ###   ########.fr       */
+/*   Updated: 2026/09/25 20:57:09 by nismayil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libft.h>
 #include <minirt.h>
 #include <parser.h>
-#include <libft.h>
 
 int	check_cylinder_norm(t_vec norm, t_scene *scene)
 {
 	double	len;
 
-	if (norm.x < -1.0 || norm.x > 1.0
-		|| norm.y < -1.0 || norm.y > 1.0
+	if (norm.x < -1.0 || norm.x > 1.0 || norm.y < -1.0 || norm.y > 1.0
 		|| norm.z < -1.0 || norm.z > 1.0)
 	{
 		scene->error_msg = "Cylinder orientation must be in range [-1.0,1.0]";
@@ -31,7 +30,7 @@ int	check_cylinder_norm(t_vec norm, t_scene *scene)
 		scene->error_msg = "Cylinder orientation cannot be zero";
 		return (0);
 	}
-	if (len > 1)
+	if (!is_norm(len))
 	{
 		scene->error_msg = "Cylinder orientation must be normalized";
 		return (0);

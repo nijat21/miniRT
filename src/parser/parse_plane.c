@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parse_plane.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abraz-ab <abraz-ab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nismayil <nismayil@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 18:25:40 by abraz-ab          #+#    #+#             */
-/*   Updated: 2026/09/22 13:33:40 by abraz-ab         ###   ########.fr       */
+/*   Updated: 2026/09/25 20:57:19 by nismayil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libft.h>
 #include <minirt.h>
 #include <parser.h>
-#include <libft.h>
+
 /*
 
 pl 0,0,0 0,1,0 255,255,255
@@ -27,8 +28,7 @@ static int	check_plane_norm(t_vec norm, t_scene *scene)
 {
 	double	len;
 
-	if (norm.x < -1.0 || norm.x > 1.0
-		|| norm.y < -1.0 || norm.y > 1.0
+	if (norm.x < -1.0 || norm.x > 1.0 || norm.y < -1.0 || norm.y > 1.0
 		|| norm.z < -1.0 || norm.z > 1.0)
 	{
 		scene->error_msg = "Plane orientation must be in range [-1.0,1.0]";
@@ -40,7 +40,7 @@ static int	check_plane_norm(t_vec norm, t_scene *scene)
 		scene->error_msg = "Plane orientation cannot be zero";
 		return (0);
 	}
-	if (len > 1)
+	if (!is_norm(len))
 	{
 		scene->error_msg = "Plane orientation must be normalized";
 		return (0);
@@ -85,8 +85,8 @@ static t_plane	*init_plane(char **tokens, t_scene *scene)
 		scene->error_msg = "Malloc failed";
 		return (NULL);
 	}
-	if (!parse_plane_vectors(tokens, pl, scene)
-		|| !parse_plane_color(tokens[3], pl, scene))
+	if (!parse_plane_vectors(tokens, pl, scene) || !parse_plane_color(tokens[3],
+			pl, scene))
 	{
 		free(pl);
 		return (NULL);

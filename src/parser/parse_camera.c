@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_camera.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abraz-ab <abraz-ab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nismayil <nismayil@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 18:25:30 by abraz-ab          #+#    #+#             */
-/*   Updated: 2026/09/22 13:33:21 by abraz-ab         ###   ########.fr       */
+/*   Updated: 2026/09/25 20:55:42 by nismayil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	check_camera_norm(t_vec norm, t_scene *scene)
 		scene->error_msg = "Camera orientation cannot be zero";
 		return (0);
 	}
-	if (len > 1)
+	if (!is_norm(len))
 	{
 		scene->error_msg = "Camera orientation must be normalized";
 		return (0);

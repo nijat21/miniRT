@@ -3,20 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   parse_vec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abraz-ab <abraz-ab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nismayil <nismayil@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 18:25:50 by abraz-ab          #+#    #+#             */
-/*   Updated: 2026/09/22 12:22:00 by abraz-ab         ###   ########.fr       */
+/*   Updated: 2026/09/25 20:56:06 by nismayil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minirt.h>
 #include <parser.h>
 
+bool	is_norm(double len)
+{
+	return (len < (1 + EPSILON) && len > (1 - EPSILON));
+}
+
 static int	parse_vec_values(char **split, t_vec *v)
 {
-	if (!parse_double(split[0], &v->x)
-		|| !parse_double(split[1], &v->y)
+	if (!parse_double(split[0], &v->x) || !parse_double(split[1], &v->y)
 		|| !parse_double(split[2], &v->z))
 		return (0);
 	return (1);
