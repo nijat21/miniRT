@@ -1,6 +1,7 @@
 _This project has been created as part of the 42 curriculum by abraz-ab and nismayil_ 
 
 # miniRT
+<img width="1272" height="743" alt="Screenshot 2026-10-07 at 10 00 34" src="https://github.com/user-attachments/assets/2b09410f-fe90-43ef-8231-bc76db085f5e" />
 
 ## Description
 
