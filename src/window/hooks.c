@@ -18,6 +18,7 @@ void	cleanup(t_disp *disp)
 {
 	if (!disp)
 		return ;
+    // To use in MacOS, comment next 6 lines
 	if (disp->img)
 		mlx_destroy_image(disp->mlx, disp->img->img);
 	if (disp->win)

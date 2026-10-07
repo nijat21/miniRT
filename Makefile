@@ -115,6 +115,7 @@ clean:
 	$(RM) $(OBJS_DIR)
 	$(LIBFT_MAKE) clean
 	$(MLX_MAKE) clean
+	rm $(MLX_DIR)/*.swiftsourceinfo
 
 fclean: clean
 	$(RM) $(NAME)

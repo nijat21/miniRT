@@ -60,11 +60,13 @@ In code terms, the render loop calls the ray generator for every pixel, finds th
 
 ## Instructions
 
+NOTE: If you are using MacOS, comment lines 21-26 in src/window/hooks.c before step 1.
+
 1. Compile the project from the repository root:
    make
 
 2. Run the program with a valid scene file:
-   ./minirt maps/valid/<scene_file>.rt
+   ./miniRT maps/valid/<scene_file>.rt
 
 3. The program expects exactly one .rt file as input. It validates required scene elements such as ambient light, camera, and light before rendering.
 
